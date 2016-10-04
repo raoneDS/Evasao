@@ -3,6 +3,8 @@
 <html>
 	<?php
 	error_reporting(E_ALL ^ E_NOTICE);
+
+	include_once 'classes/AlunoController.php';
 	include_once 'Util.php';
 
 	session_start();
@@ -15,9 +17,8 @@
 	  header("location:login.php");
 	}
 
-	$util = new Util();
-	$alunos = $util->montaDados();
-
+	$alunoController = new AlunoController();
+	$alunos = $alunoController->montaEstruturaAlunos();
 	?>
 	<head>
 		<title>Evasão</title>
@@ -28,28 +29,38 @@
 
 		<nav class="navbar navbar-default">
 		  <div class="container-fluid">
-		    <!-- Brand and toggle get grouped for better mobile display -->
 		    <div class="navbar-header">
 		        <img alt="Brand" src="university-pin.png">
 		    </div>
 
-		    <!-- Collect the nav links, forms, and other content for toggling -->
-		    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+		    <ul class="nav navbar-nav navbar-right">
+				<button type="button" class="btn btn-danger navbar-btn" onclick="abreModal()">Atualizar Base</button>
+				<!-- <button type="button" onclick="logout.php" class="btn btn-inverse navbar-btn">Sair</button> -->
+				<a href="logout.php" class="btn btn-default">Fazer logoff</a>
+			</ul>
+
 		      <ul class="nav navbar-nav">
-		      <!-- ME AJUDA A ESTILIZAR A TAG SELECT COM O SELECT2, OS ARQUIVOS ESTÃO NO PROJETO, FALTA LINKAR -->
-		      <select>
-		      	<option>Cariacica</option>
-		      	<option>Vila Velha</option>
-		      </select>
-		    </div><!-- /.navbar-collapse -->
-		  </div><!-- /.container-fluid -->
+		        <li class="dropdown">
+		          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown<span class="caret"></span></a>
+		          <ul class="dropdown-menu">
+		            <li><a href="#">Action</a></li>
+		            <li><a href="#">Another action</a></li>
+		            <li><a href="#">Something else here</a></li>
+		            <li role="separator" class="divider"></li>
+		            <li><a href="#">Separated link</a></li>
+		            <li role="separator" class="divider"></li>
+		            <li><a href="#">One more separated link</a></li>
+		          </ul>
+		        </li>
+		      </ul>
 		</nav>
+
 	</head>
 
 
 
 	<body>
-		<div id="mapid" style="width: 1000px; height: 400px">
+		<div id="mapid" style="width: 1370px; height: 400px">
 		</div>
 
 	<!-- Modal -->
@@ -61,7 +72,7 @@
 	        <h4 class="modal-title" id="myModalLabel">Carregar Base de dados</h4>
 	      </div>
 	      <div class="modal-body">
-	        Olá <?php echo $_SESSION['nome_usuario'] ?>, <br><br>É aconselhável recarregar sua base de dados no Evasão sempre que houverem mudanças.
+	        Olá <?php echo $_SESSION['nome_usuario']; ?>, <br><br>É aconselhável recarregar sua base de dados no Evasão sempre que houverem mudanças.
 	      </div>
 	      <div class="modal-footer">
 	        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
@@ -83,15 +94,17 @@
 <script>
 
 	var speed = 800;
-	var timer = setInterval(montaMapa, speed);
+	//var timer = setInterval(montaMapa, speed);
 	var st = null;
 	var listaAlunos = <?php echo $alunos ?>;
+	console.log(listaAlunos);
 	var length = listaAlunos.length;
 	var index = 0;
 	var pontos = 0;
 	
 
 	function montaMapa(){
+		console.log(listaAlunos[index]);
 		searchAddress(listaAlunos[index]);
 		if(st == 'OK')
 			index++;
@@ -109,12 +122,14 @@
 		}
 	}
 
- 	//$('.selectpicker').select2();
-	//$('#myModal').modal('toggle');
+ 	function abreModal(){
+ 		$('#myModal').modal('toggle');
+ 	}	
 
 	$('#recarregar').click(function(event) {
-		alert("oi");
-		$('#myModal').modal('toggle');
+		clearInterval(timer);
+/*		alert("Atualizar DB");
+		$('#myModal').modal('toggle');*/
 	});
 
 		var marker;
@@ -136,7 +151,7 @@
 		geocoder.geocode({address: endereco}, function(results, status) {
 			st = status;
 			if(status == 'OK'){
-				var myResult = [results[0].geometry.viewport.f.b, results[0].geometry.viewport.b.b];
+				var myResult = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
 				L.marker(myResult).addTo(mymap).bindPopup(aluno.email+'<br>'+aluno.matricula);
 				pontos++;
 			}else{

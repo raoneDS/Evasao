@@ -1,12 +1,13 @@
 <?php
-class Aluno{
+class Aluno implements JsonSerializable{
+    private $nome;
+    private $email;
     private $matricula;
     private $situacao;
     private $dataNascimento;
     private $sexo;
     private $curso;
     private $endereco;
-
 
     public function __construct()
     {
@@ -25,16 +26,24 @@ class Aluno{
       return $this->situacao;
     }
 
-    public function setDataNascimento($situacao){
+    public function setSituacao($situacao){
       $this->situacao = $situacao;
+    }
+
+    public function setEmail($email){
+      $this->email = $email;
+    }
+
+    public function getEmail(){
+      return $this->email;
+    }
+
+    public function setDataNascimento($dataNascimento){
+      $this->dataNascimento = $dataNascimento;
     }
 
     public function getDataNascimento(){
       return $this->dataNascimento;
-    }
-
-    public function setSituacao($dataNascimento){
-      $this->dataNascimento = $dataNascimento;
     }
 
     public function getSexo(){
@@ -60,6 +69,20 @@ class Aluno{
     public function setEndereco($endereco){
       $this->endereco = $endereco;
     }    
+
+    public function jsonSerialize() {
+
+        return [
+          'nome' => $this->nome,
+          'email' => $this->email,
+          'matricula' => $this->matricula,
+          'situacao' => $this->situacao,
+          'dataNascimento' => $this->dataNascimento,
+          'sexo' => $this->sexo,
+          'curso' => $this->curso,
+          'endereco' => $this->endereco
+        ];
+    }
 
 }
 ?>

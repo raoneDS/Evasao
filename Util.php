@@ -1,4 +1,6 @@
 <?php
+include_once 'classes/Aluno.php';
+include_once 'classes/AlunoDAO.php';
 
 Class Util{
 
@@ -8,6 +10,10 @@ Class Util{
 		$linha = fgets($arquivo);
 		$cont = 0;
 		$contMeninas = 0;
+
+		$aluno = new Aluno();
+		$alunoDAO = new AlunoDAO();
+
 
 		while($linha != null) {
 			if($cont > 0){
@@ -20,6 +26,7 @@ Class Util{
 								'email' => utf8_encode($dados[14]),
 								'endereco' => utf8_encode($dados[29].' '.$dados[30].', '.$dados[32].', '.$dados[34])
 								);
+
 				$cidades[utf8_encode($dados[34])] += 1;
 				if($dados[7] == 'F')
 					$contMeninas++;

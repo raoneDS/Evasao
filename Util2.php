@@ -15,7 +15,8 @@
 							'dt_nascimento' => $dados[5],
 							'sexo' => $dados[7],
 							'curso' => utf8_encode($dados[9]),
-							'endereco' => utf8_encode($dados[29].', '.$dados[30].' - '.$dados[32].', '.$dados[34])
+							'endereco' => utf8_encode($dados[29].', '.$dados[30].' - '.$dados[32].', '.$dados[34]),
+							'email' => utf8_encode($dados[14])
 							);
 			$cidades[utf8_encode($dados[34])] += 1;
 			if($dados[7] == 'F')
