@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	include_once 'Classes/UsuarioController.php';
+	include_once 'Classes/Control/UsuarioController.php';
 
 	$login = $_POST['usuario'];
 	$senha = $_POST['senha'];

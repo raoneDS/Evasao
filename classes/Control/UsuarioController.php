@@ -1,6 +1,7 @@
 <?php
-include_once 'Usuario.php';
-include_once 'UsuarioDAO.php';
+//dirname('C:/xampp/htdocs/Evasao/');
+include_once 'Classes/Model/Usuario.php';
+include_once 'Classes/DAO/UsuarioDAO.php';
 
 class UsuarioController{
 

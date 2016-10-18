@@ -3,22 +3,27 @@
 <html>
 	<?php
 	error_reporting(E_ALL ^ E_NOTICE);
-
-	include_once 'classes/AlunoController.php';
-	include_once 'Util.php';
+	dirname('C:/xampp/htdocs/Evasao/');
+	include_once 'Classes/Control/AlunoController.php';
 
 	session_start();
-	if(isset($_SESSION["id_usuario"])){
-		if($_SESSION['sexo'] == "M")
-			$page_title = "Bem vindo, ".$_SESSION['nome_usuario'].".";
-		else
-			$page_title = "Bem vinda, ".$_SESSION['nome_usuario'].".";
-	}else{
+	if(!isset($_SESSION["id_usuario"])){
 	  header("location:login.php");
 	}
 
-	$alunoController = new AlunoController();
-	$alunos = $alunoController->montaEstruturaAlunos();
+	// $alunos = getAlunosCSV();
+	// $loadDB = json_encode(false);
+
+	$alunos = getAlunosDB();
+	$loadDB = json_encode(true);
+
+	// if($alunos = null){
+	// 	//$alunos = getAlunosCSV();
+	// 	$loadDB = json_encode(false);
+	// }else{
+	// 	$loadDB = json_encode(true);
+	// }
+	
 	?>
 	<head>
 		<title>Evasão</title>
@@ -37,6 +42,7 @@
 				<button type="button" class="btn btn-danger navbar-btn" onclick="abreModal()">Atualizar Base</button>
 				<!-- <button type="button" onclick="logout.php" class="btn btn-inverse navbar-btn">Sair</button> -->
 				<a href="logout.php" class="btn btn-default">Fazer logoff</a>
+				<input id="fileupload" type="file" name="files[]" data-url="server/php/" multiple>
 			</ul>
 
 		      <ul class="nav navbar-nav">
@@ -54,35 +60,32 @@
 		        </li>
 		      </ul>
 		</nav>
-
 	</head>
 
 
 
 	<body>
-		<div id="mapid" style="width: 1370px; height: 400px">
+		<div id="mapid" style="width: 1370px; height: 400px"></div>
+		<!-- Modal -->
+		<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+		  <div class="modal-dialog" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+		        <h4 class="modal-title" id="myModalLabel">Carregar Base de dados</h4>
+		      </div>
+		      <div class="modal-body">
+		        Olá <?php echo $_SESSION['nome_usuario']; ?>, <br><br>É aconselhável recarregar sua base de dados no Evasão sempre que houverem mudanças.
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
+		        <button type="button" class="btn btn-danger" id="recarregar">Open File</button>
+		      </div>
+		    </div>
+		  </div>
 		</div>
-
-	<!-- Modal -->
-	<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-	  <div class="modal-dialog" role="document">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-	        <h4 class="modal-title" id="myModalLabel">Carregar Base de dados</h4>
-	      </div>
-	      <div class="modal-body">
-	        Olá <?php echo $_SESSION['nome_usuario']; ?>, <br><br>É aconselhável recarregar sua base de dados no Evasão sempre que houverem mudanças.
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default" data-dismiss="modal">Fechar</button>
-	        <button type="button" class="btn btn-danger" id="recarregar">Open File</button>
-	      </div>
-	    </div>
-	  </div>
-	</div>
-
 	</body>
+
 </html>
 
 
@@ -93,33 +96,65 @@
 
 <script>
 
-	var speed = 800;
-	//var timer = setInterval(montaMapa, speed);
-	var st = null;
+	// VARIAVEIS DE MAPA //
+	var marker;
+	var coordanadaInicial = [-20.1625356,-40.401568];
+	var mymap = new L.map('mapid').setView(coordanadaInicial, 11);
+
+	L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
+		maxZoom: 18,
+		attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		id: 'mapbox.streets'
+	}).addTo(mymap);
+	// ------------------------------------- //
+
+
+	var bancoCheio = <?php echo $loadDB ?>;
+
 	var listaAlunos = <?php echo $alunos ?>;
-	console.log(listaAlunos);
 	var length = listaAlunos.length;
-	var index = 0;
-	var pontos = 0;
+	var localizacao = null;
 	
 
-	function montaMapa(){
-		console.log(listaAlunos[index]);
+	if(!bancoCheio){
+		var speed = 500;
+		var timer = setInterval(foundLocations, speed);
+		var st = null;
+		var index = 0;
+		var pontos = 0;
+	}else{
+		$.each(listaAlunos, function(index, aluno) {
+			localizacao = [aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt];
+			setLocation(localizacao, aluno);
+		});
+
+	}
+	
+
+	function foundLocations(){
 		searchAddress(listaAlunos[index]);
-		if(st == 'OK')
+		if(st == google.maps.GeocoderStatus.OK){
+			listaAlunos[index].endereco.ponto = localizacao;
 			index++;
-		else{
-			console.log(st);
-			console.log("Erro em:",listaAlunos[index].matricula,listaAlunos[index].email);
+		}else{
+			console.log(st," Erro em:",listaAlunos[index].matricula.numeroMatricula,listaAlunos[index].email,' new speed: ',speed);
 			clearInterval(timer);
 			speed += 200;
-			console.log(speed);
-			timer = setInterval(montaMapa, speed);
+			timer = setInterval(foundLocations, speed);
 		}
 		if(index >= length){
 			clearInterval(timer);
 			console.log("pontos: ",pontos);
+			insertDB();
 		}
+	}
+
+	function insertDB(){
+		$.post('classes/Control/AlunoController.php', {acao: 'saveData', alunos: listaAlunos}, function(data, textStatus, xhr){
+			console.log(textStatus);
+		});
 	}
 
  	function abreModal(){
@@ -127,37 +162,26 @@
  	}	
 
 	$('#recarregar').click(function(event) {
-		clearInterval(timer);
-/*		alert("Atualizar DB");
-		$('#myModal').modal('toggle');*/
+		alert("Atualizar DB");
+		$('#myModal').modal('toggle');
 	});
 
-		var marker;
-		var coordanadaInicial = [-20.1625356,-40.401568];
-		var mymap = new L.map('mapid').setView(coordanadaInicial, 11);
-
-		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
-			maxZoom: 18,
-			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
-				'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
-				'Imagery © <a href="http://mapbox.com">Mapbox</a>',
-			id: 'mapbox.streets'
-		}).addTo(mymap);
-
 	function searchAddress(aluno) {
-		endereco = aluno.endereco;
+		endereco = aluno.endereco.rua +', '+aluno.endereco.numero+', '+aluno.endereco.bairro+', '+aluno.endereco.cidade+' - '+aluno.endereco.uf;
 
 		var geocoder = new google.maps.Geocoder();
 		geocoder.geocode({address: endereco}, function(results, status) {
 			st = status;
-			if(status == 'OK'){
-				var myResult = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
-				L.marker(myResult).addTo(mymap).bindPopup(aluno.email+'<br>'+aluno.matricula);
+			if(status == google.maps.GeocoderStatus.OK){
+				localizacao = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
+				setLocation(localizacao, aluno);
 				pontos++;
-			}else{
-				console.log('erro:', status);
 			}
 		});
+	}
+
+	function setLocation(localizacao, aluno){
+		L.marker(localizacao).addTo(mymap).bindPopup(aluno.email+'<br>'+aluno.matricula.numeroMatricula);
 	}
 
 
