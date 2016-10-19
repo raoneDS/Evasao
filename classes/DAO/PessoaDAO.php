@@ -26,12 +26,12 @@ class PessoaDAO extends DB implements IDAO {
 		$con = $this->getInstance();
 
 	    $sql = "INSERT INTO pessoas (data_nascimento, sexo, nome) 
-				VALUES 	(:data_nascimento, :sexo)";
+				VALUES 	(:data_nascimento, :sexo, :nome)";
 
 		$stmt = $this->prepare($sql);
 		$stmt->bindParam(":data_nascimento",$pessoa['$dataNascimento']);
 		$stmt->bindParam(":sexo",$pessoa['sexo']);
-		$stmt->bindParam(":sexo",$pessoa['nome']);
+		$stmt->bindParam(":nome",$pessoa['nome']);
 		$stmt->execute();
 		$id = $this->getLastId();
 		return $id['id_pessoa'];

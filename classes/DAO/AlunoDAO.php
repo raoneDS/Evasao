@@ -84,10 +84,6 @@ class AlunoDAO extends DB implements IDAO {
 	}
 
 	public function insert_transaction($aluno) {
-		echo "<pre>";
-		var_dump($aluno);
-		echo "</pre>";
-		exit();
 
 		try{
 		    $con = $this->getInstance();
