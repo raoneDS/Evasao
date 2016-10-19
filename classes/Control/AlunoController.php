@@ -76,6 +76,10 @@ function getAlunosCSV(){
 		$cont++;
 	}
 	fclose($arquivo);
+	// echo "<pre>";
+	// print_r($alunos);
+	// echo "</pre>";
+	// exit();
 	return json_encode($alunos);
 }
 
@@ -84,11 +88,11 @@ function inseriTodos($alunos){
 	foreach ($alunos as $key => $aluno) {
 		$alunoDAO->insert_transaction($aluno);
 	}
-	$historico = new Historico();
-	$historico->setData(date("m-d-y"));
-	$historico->setQtdRegistros(count($alunos));
-	$historicoDAO = new HistoricoDAO();
-	$historicoDAO->insert($historico);
+	// $historico = new Historico();
+	// $historico->setData(date("m-d-y"));
+	// $historico->setQtdRegistros(count($alunos));
+	// $historicoDAO = new HistoricoDAO();
+	// $historicoDAO->insert($historico);
 }
 
 function getAlunosDB(){
