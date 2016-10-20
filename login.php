@@ -8,7 +8,7 @@
     <meta name="author" content="Cesar">
     <link rel="icon" href="imagens/favicon.ico">
 
-    <title>Tibico Login</title>
+    <title>Evavão Login</title>
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/signin.css" rel="stylesheet">
     <script src="js/ie-emulation-modes-warning.js"></script>
