@@ -29,7 +29,7 @@ class PessoaDAO extends DB implements IDAO {
 				VALUES 	(:data_nascimento, :sexo, :nome)";
 
 		$stmt = $this->prepare($sql);
-		$stmt->bindParam(":data_nascimento",$pessoa['$dataNascimento']);
+		$stmt->bindParam(":data_nascimento",$pessoa['$data_nascimento']);
 		$stmt->bindParam(":sexo",$pessoa['sexo']);
 		$stmt->bindParam(":nome",$pessoa['nome']);
 		$stmt->execute();

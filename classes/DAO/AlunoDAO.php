@@ -71,8 +71,8 @@ class AlunoDAO extends DB implements IDAO {
 		    				VALUES 	(:renda_familiar, :escola_origem, $id_pessoa, :email)";
 
 			$stmt = $this->prepare($sqlAluno);
-		   	$stmt->bindParam(":renda_familiar",$aluno['rendaFamiliar']);
-		    $stmt->bindParam(":escola_origem",$aluno['escolaOrigem']);
+		   	$stmt->bindParam(":renda_familiar",$aluno['renda_familiar']);
+		    $stmt->bindParam(":escola_origem",$aluno['escola_origem']);
 		    $stmt->bindParam(":email",$aluno['email']);
 		    $stmt->execute();
 		    $id_aluno = $this->getLastId();

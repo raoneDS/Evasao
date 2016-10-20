@@ -61,14 +61,14 @@ class Aluno extends Pessoa implements JsonSerializable{
 
         return [
           'nome' => $this->nome,
-          'dataNascimento' => $this->dataNascimento,
+          'data_nascimento' => $this->dataNascimento,
           'sexo' => $this->sexo,
           'email' => $this->email,
           'matricula' => $this->matricula,
           'situacao' => $this->situacao,
           'endereco' => $this->endereco,
-          'rendaFamiliar' => $this->rendaFamiliar,
-          'escolaOrigem' => $this->escolaOrigem
+          'renda_familiar' => $this->rendaFamiliar,
+          'escola_origem' => $this->escolaOrigem
         ];
     }
 }

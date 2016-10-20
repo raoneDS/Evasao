@@ -11,11 +11,11 @@
 	  header("location:login.php");
 	}
 
-	$alunos = getAlunosCSV();
-	$loadDB = json_encode(false);
+	// $alunos = getAlunosCSV();
+	// $loadDB = json_encode(false);
 
-	// $alunos = getAlunosDB();
-	// $loadDB = json_encode(true);
+	$alunos = getAlunosDB();
+	$loadDB = json_encode(true);
 
 	// if($alunos = null){
 	// 	//$alunos = getAlunosCSV();
@@ -27,7 +27,7 @@
 	?>
 	<head>
 		<title>Evasão</title>
-		<meta charset="utf-8" />
+		<meta charset="utf-8"/>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 		<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.0-rc.3/dist/leaflet.css"/>
 		<link rel="stylesheet" href="bootstrap/css/bootstrap.min.css">
@@ -61,8 +61,6 @@
 		      </ul>
 		</nav>
 	</head>
-
-
 
 	<body>
 		<div id="mapid" style="width: 1370px; height: 400px"></div>
@@ -111,7 +109,6 @@
 
 	var IconRoxo = L.icon({
 	    iconUrl: 'icons/roxo.png',
-
 	    iconSize:     [25, 40] // size of the icon
 	    // shadowSize:   [50, 64], // size of the shadow
 	    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
@@ -121,18 +118,17 @@
 
 	// ------------------------------------- //
 
-	var localizacao = null;
-	var bancoCheio = <?php echo $loadDB ?>;
-	var listaAlunos = <?php echo $alunos ?>;
-	var length = listaAlunos.length;
-
+	localizacao = null;
+	bancoCheio = <?php echo $loadDB ?>;
+	listaAlunos = <?php echo $alunos ?>;
+	length = listaAlunos.length;
 	
 	if(!bancoCheio){
-		var speed = 500;
-		var pontos = 0;
-		var st = null;
-		var index = 0;
-		var timer = setInterval(foundLocations, speed);
+		speed = 100;
+		pontos = 0;
+		st = null;
+		index = 0;
+		timer = setInterval(foundLocations, speed);
 	}else{
 		$.each(listaAlunos, function(i, aluno) {
 			localizacao = [aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt];
@@ -140,33 +136,49 @@
 		});
 	}
 
+	function foundLocations(){
+		searchAddress(listaAlunos[index]);
+	}
+
+	function searchAddress(aluno) {
+		endereco = aluno.endereco.rua +', '+aluno.endereco.numero+', '+aluno.endereco.bairro+', '+aluno.endereco.cidade+' - '+aluno.endereco.uf;
+		var geocoder = new google.maps.Geocoder();
+		geocoder.geocode({address: endereco}, function(results, status) {
+			st = status;
+			if(status == google.maps.GeocoderStatus.OK){
+				localizacao = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
+				setLocation(localizacao, aluno);
+			}
+			createStructure();
+		});
+	}
+
+	function setLocation(localizacao, aluno){
+		if(aluno.sexo == 'F')
+			L.marker(localizacao, {icon: IconRoxo}).addTo(mymap).bindPopup(aluno.email+'<br>'+aluno.matricula.numeroMatricula);
+		else
+			L.marker(localizacao).addTo(mymap).bindPopup(aluno.email+'<br>'+aluno.matricula.numeroMatricula);
+	}
+
 	function createStructure(){
 		if(st == google.maps.GeocoderStatus.OK){
-			console.log(index);
 			listaAlunos[index].endereco.ponto = localizacao;
-			index++;
 			console.log(index);
+			index++;
 			pontos++;
 		}else if(st == google.maps.GeocoderStatus.ZERO_RESULTS){
 			console.log(listaAlunos[index].email,'endereco nao encontrado');
 			index++;
 		}else{
-			console.log(st," Erro em:",listaAlunos[index].matricula.numeroMatricula,listaAlunos[index].email,' new speed: ',speed);
+			console.log(st,"em:",listaAlunos[index].matricula.numeroMatricula,listaAlunos[index].email,' new speed: ',speed);
 			clearInterval(timer);
 			speed += 200;
 			timer = setInterval(foundLocations, speed);
-		}if(index >= 3){
+		}if(index+1 >= length){
 			clearInterval(timer);
 			console.log("pontos: ",pontos);
-			//insertDB();
+			insertDB();
 		}
-	}
-
-
-	function foundLocations(){
-		searchAddress(listaAlunos[index],function(){
-			createStructure();			
-		});
 	}
 
 	function insertDB(){
@@ -183,29 +195,6 @@
 		alert("Atualizar DB");
 		$('#myModal').modal('toggle');
 	});
-
-	function searchAddress(aluno) {
-		endereco = aluno.endereco.rua +', '+aluno.endereco.numero+', '+aluno.endereco.bairro+', '+aluno.endereco.cidade+' - '+aluno.endereco.uf;
-		var geocoder = new google.maps.Geocoder();
-		geocoder.geocode({address: endereco}, function(results, status) {
-			st = status;
-			console.log(st);
-			if(status == google.maps.GeocoderStatus.OK){
-				localizacao = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
-				console.log(localizacao);
-				setLocation(localizacao, aluno);
-				
-			}
-		});
-		return true;
-	}
-
-	function setLocation(localizacao, aluno){
-		if(aluno.sexo == 'F')
-			L.marker(localizacao, {icon: IconRoxo}).addTo(mymap).bindPopup(aluno.email+'<br>'+aluno.matricula.numeroMatricula);
-		else
-			L.marker(localizacao).addTo(mymap).bindPopup(aluno.email+'<br>'+aluno.matricula.numeroMatricula);
-	}
 
 
 	function onMapClick(e) {
@@ -227,7 +216,4 @@
 			[51.503, -0.06],
 			[51.51, -0.047]
 		]).addTo(mymap).bindPopup("I am a polygon.");*/
-
-
-
 </script>
