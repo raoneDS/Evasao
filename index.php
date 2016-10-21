@@ -19,8 +19,44 @@ $page_title = "Home";
 include_once 'header.php';
 
 ?>
-	<div id="mapid"></div>
 
+		<!-- page content -->
+	<div class="right_col" role="main">
+		<div class="">
+            <div class="filters-bar">
+
+				<div class="categorize">
+					<h4 class="categorize-title">Categorizar:</h4>
+					<div class="categorize-select">
+						<select class="categorizeSelect">
+							<option value="Sexo">Sexo</option>
+							<option value="Situacao">Situação Matricula</option>
+						</select>
+					</div>
+				</div>
+
+				<div class="filters">
+					<h4 class="filters-title">Filtros:</h4>
+					<div class="situacao-select">
+						<select class="situacaoSelect">
+							<option disabled selected value></option>
+							<option value="Matriculado">Matriculado</option>
+							<option value="Trancado">Trancado</option>
+							<option value="Cancelado">Cancelado</option>
+							<option value="Concluinte">Concluinte</option>
+							<option value="Concluente">Concluente</option>
+							<option value="Concluido">Concluido</option>
+						</select>
+					</div>
+
+				</div>
+
+            </div>
+          </div>
+
+          <div id="mapid"></div>
+        </div>
+        <!-- /page content -->
 
 	<script>
 		// VARIAVEIS DE MAPA //
@@ -39,6 +75,24 @@ include_once 'header.php';
 		var IconRoxo = L.icon({
 		    iconUrl: 'icons/roxo.png',
 		    iconSize:     [25, 40] // size of the icon
+		    // shadowSize:   [50, 64], // size of the shadow
+		    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+		    // shadowAnchor: [4, 62],  // the same for the shadow
+		    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+		});
+
+		var blueIcon = L.icon({
+		    iconUrl: 'icons/blue_marker.png',
+		    iconSize:     [36, 36] // size of the icon
+		    // shadowSize:   [50, 64], // size of the shadow
+		    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+		    // shadowAnchor: [4, 62],  // the same for the shadow
+		    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+		});
+
+		var pinkIcon = L.icon({
+		    iconUrl: 'icons/pink_marker.png',
+		    iconSize:     [36, 36] // size of the icon
 		    // shadowSize:   [50, 64], // size of the shadow
 		    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
 		    // shadowAnchor: [4, 62],  // the same for the shadow
@@ -84,9 +138,9 @@ include_once 'header.php';
 
 		function setLocation(localizacao, aluno){
 			if(aluno.sexo == 'F')
-				L.marker(localizacao, {icon: IconRoxo}).addTo(mymap).bindPopup(aluno.email+'<br>'+aluno.matricula.numeroMatricula);
+				L.marker(localizacao, {icon: pinkIcon}).addTo(mymap).bindPopup(aluno.nome+'<br>'+aluno.matricula.numeroMatricula);
 			else
-				L.marker(localizacao).addTo(mymap).bindPopup(aluno.email+'<br>'+aluno.matricula.numeroMatricula);
+				L.marker(localizacao, {icon: blueIcon}).addTo(mymap).bindPopup(aluno.nome+'<br>'+aluno.matricula.numeroMatricula);
 		}
 
 		function createStructure(){
@@ -125,13 +179,13 @@ include_once 'header.php';
 			$('#myModal').modal('toggle');
 		});
 
+		$(".categorizeSelect").select2();
 
-		function onMapClick(e) {
-			popup
-				.setLatLng(e.latlng)
-				.setContent("You clicked the map at " + e.latlng.toString())
-				.openOn(mymap);
-		}
+		$(".situacaoSelect").select2({
+			placeholder: "Situação de Matrícula",
+		  	allowClear: true
+		});
+
 	</script>
 
 <?php 

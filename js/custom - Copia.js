@@ -12,7 +12,7 @@ var CURRENT_URL = window.location.href.split('?')[0],
     $LEFT_COL = $('.left_col'),
     $RIGHT_COL = $('.right_col'),
     $NAV_MENU = $('.nav_menu'),
-    $FOOTER = $('footer')
+    $FOOTER = $('footer');
     $MAP = $('#mapid');
 
 // Sidebar
@@ -20,8 +20,9 @@ $(document).ready(function() {
     // TODO: This is some kind of easy fix, maybe we can improve this
     var setContentHeight = function () {
         // reset height
+        
         var window_height = $(window).height();
-        //$RIGHT_COL.css('min-height', window_height);
+        $RIGHT_COL.css('min-height', window_height-58);
 
         var bodyHeight = $BODY.outerHeight(),
             footerHeight = $BODY.hasClass('footer_fixed') ? 0 : $FOOTER.height(),
@@ -29,10 +30,13 @@ $(document).ready(function() {
             contentHeight = bodyHeight < leftColHeight ? leftColHeight : bodyHeight;
 
         // normalize content
-        contentHeight -= $NAV_MENU.height() + footerHeight;
+        //contentHeight -= $NAV_MENU.height() + footerHeight;
+        contentHeight -= 11;
 
-        //$RIGHT_COL.css('min-height', contentHeight);
-        //$MAP.css('min-height', window_height-49-58-60);
+        $RIGHT_COL.css('min-height', contentHeight);
+        $BODY.css('min-height', contentHeight);
+        $MAP.css('min-height', window_height-58);
+        
     };
 
     $SIDEBAR_MENU.find('a').on('click', function(ev) {

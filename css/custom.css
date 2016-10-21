@@ -10,7 +10,7 @@
 
 .nav-sm .container.body .col-md-3.left_col.menu_fixed {
   position: fixed;
-  height: 100%; }
+  heigf: 100%; }
 
 .nav-sm .container.body .col-md-3.left_col .mCSB_container,
 .nav-sm .container.body .col-md-3.left_col .mCustomScrollBox {
@@ -20,7 +20,6 @@
   visibility: hidden; }
 
 .nav-sm .container.body .right_col {
-  padding: 10px 20px;
   margin-left: 70px;
   z-index: 2; }
 
@@ -178,7 +177,6 @@
   float: left;
   background: #EDEDED;
   border-bottom: 1px solid #D9DEE4;
-  margin-bottom: 10px;
   width: 100%;
   position: relative; }
 
@@ -331,7 +329,8 @@ body {
   font-family: "Helvetica Neue", Roboto, Arial, "Droid Sans", sans-serif;
   font-size: 13px;
   font-weight: 400;
-  line-height: 1.471; }
+  line-height: 1.471; 
+  height: 100%;}
 
 .main_container .top_nav {
   display: block;
@@ -4304,11 +4303,74 @@ ul.notifications {
 
 
 /* Alterações feitas pela equipe Evasão */
+html{
+  height: 100%; }
+
+.container.body {
+    height: 100%; }
+
+.main_container {
+  height: 100%; }
+
+.right_col {
+  height: 100%; }
+
 .content {
-    min-height: 250px;
-}
+    min-height: 250px; }
 
 #mapid {
   width: 100%; 
-  height: 550px;
+    height: 100%;
+    height: -webkit-calc(100% - 118px);
+    height: -moz-calc(100% - 118px);
+    height: calc(100% - 118px); }
+
+.filters-bar {
+  width: 100%;
+  clear: both; 
+  height: 60px;
+  display: block;
+  background: #fff;
+  border-bottom: 1px solid #D9DEE4; }
+
+.filters {  
+  float: left;
+  width: calc(100% - 280px); 
+  padding-top: 10px;
+  padding-left: 10px}
+
+h4.filters-title {
+  float: left; 
+  padding-right: 10px}
+
+.categorize {  
+  float: left;
+  width: 280px; 
+  padding-top: 10px;
+  padding-left: 10px; }
+
+h4.categorize-title {
+  float: left;
+  padding-right: 10px;
 }
+
+.categorize-Select {  
+  float: left;
+  width: 170px; }
+
+select.categorizeSelect {  
+  width: 150px; }
+
+.situacao-select {  
+  float: left;
+  width: 170px; }
+
+select.situacaoSelect {  
+  width: 200px; }
+
+
+
+
+
+
+

@@ -21,8 +21,14 @@
     <!-- Custom Theme Style -->
     <link href="css/custom.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
+
     <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
     <script src="plugins/jquery/dist/jquery.min.js"></script>
+
+    <!-- Select2 -->
+    <link href="plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="plugins/select2/dist/js/select2.min.js"></script>
+
   </head>
 
   <body class="nav-md">
@@ -111,8 +117,3 @@
             </nav>
           </div>
         </div>
-        <!-- /top navigation -->
-
-        <div class="right_col" role="main" style="min-height: 1694px;">
-
-        
