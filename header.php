@@ -22,12 +22,75 @@
     <link href="css/custom.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
 
-    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
-    <script src="plugins/jquery/dist/jquery.min.js"></script>
-
     <!-- Select2 -->
     <link href="plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
+
+    <!-- Datatables -->
+    <link href="plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="plugins/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
+    <link href="plugins/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
+    <link href="plugins/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
+    <link href="plugins/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+
+    <!-- JQuery -->
+    <script src="plugins/jquery/dist/jquery.min.js"></script>
+    <!-- Bootstrap -->
+    <script src="plugins/bootstrap/dist/js/bootstrap.min.js"></script>
+    <?php /*
+    <!-- FastClick -->
+    <script src="plugins/fastclick/lib/fastclick.js"></script>
+    <!-- NProgress -->
+    <script src="plugins/nprogress/nprogress.js"></script>
+    <!-- Chart.js -->
+    <script src="plugins/Chart.js/dist/Chart.min.js"></script>
+    <!-- gauge.js -->
+    <script src="plugins/bernii/gauge.js/dist/gauge.min.js"></script>
+    <!-- bootstrap-progressbar -->
+    <script src="plugins/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
+    <!-- iCheck -->
+    <script src="plugins/iCheck/icheck.min.js"></script>
+    <!-- Skycons -->
+    <script src="plugins/skycons/skycons.js"></script>
+    <!-- Flot -->
+    <script src="plugins/Flot/jquery.flot.js"></script>
+    <script src="plugins/Flot/jquery.flot.pie.js"></script>
+    <script src="plugins/Flot/jquery.flot.time.js"></script>
+    <script src="plugins/Flot/jquery.flot.stack.js"></script>
+    <script src="plugins/Flot/jquery.flot.resize.js"></script>
+    <!-- Flot plugins -->
+    <script src="js/flot/jquery.flot.orderBars.js"></script>
+    <script src="js/flot/date.js"></script>
+    <script src="js/flot/jquery.flot.spline.js"></script>
+    <script src="js/flot/curvedLines.js"></script>
+    <!-- bootstrap-daterangepicker -->
+    <script src="js/moment/moment.min.js"></script>
+    <script src="js/datepicker/daterangepicker.js"></script>
+    */?>
+    <!-- Datatables -->
+    <script src="plugins/datatables.net/js/jquery.dataTables.min.js"></script>
+    <script src="plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+    <script src="plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+    <script src="plugins/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+    <script src="plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
+    <script src="plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
+    <script src="plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
+    <script src="plugins/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+    <script src="plugins/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+    <script src="plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+    <script src="plugins/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+    <script src="plugins/datatables.net-scroller/js/datatables.scroller.min.js"></script>
+    <script src="plugins/jszip/dist/jszip.min.js"></script>
+    <script src="plugins/pdfmake/build/pdfmake.min.js"></script>
+    <script src="plugins/pdfmake/build/vfs_fonts.js"></script>
+
+    <!-- Select2 -->
     <script src="plugins/select2/dist/js/select2.min.js"></script>
+
+    <!-- Custom Theme Scripts -->
+    <script src="js/custom.js"></script>
+
+    <!-- Leaftlet -->
+    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
 
   </head>
 
@@ -63,10 +126,10 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i>Home</a></li>
-                  <li><a href="index2.php"><i class="fa fa-upload"></i>Importar Dados</a></li>
-                  <li><a href="index3.php"><i class="fa fa-pencil-square"></i>Cursos</a></li>
-                  <li><a href="index4.php"><i class="fa fa-user"></i>Usuarios</a></li>
-                  <li><a href="index4.php"><i class="fa fa-cogs"></i>Configurar</a></li>
+                  <li><a href="importar-dados.php"><i class="fa fa-upload"></i>Importar Dados</a></li>
+                  <li><a href="cursos.php"><i class="fa fa-pencil-square"></i>Cursos</a></li>
+                  <li><a href="usuarios.php"><i class="fa fa-user"></i>Usuarios</a></li>
+                  <li><a href="configuracoes.php"><i class="fa fa-cogs"></i>Configurar</a></li>
                 </ul>
               </div>
             </div>

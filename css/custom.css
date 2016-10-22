@@ -347,7 +347,8 @@ body {
 .page-title .title_left {
   width: 45%;
   float: left;
-  display: block; }
+  display: block; 
+  padding-top: 10px;}
 
 .page-title .title_left h3 {
   margin: 9px 0; }
@@ -1786,10 +1787,6 @@ a.star {
   margin: 0 0 15px !important;
   text-align: left;
   width: 100%; }
-
-.buttons, button, .btn {
-  margin-bottom: 5px;
-  margin-right: 5px; }
 
 .btn-group-vertical .btn, .btn-group .btn {
   margin-bottom: 0;
@@ -4368,9 +4365,14 @@ select.categorizeSelect {
 select.situacaoSelect {  
   width: 200px; }
 
+.main-content {
+    padding: 10px 20px 0; }
 
+td {
+vertical-align: middle !important; }
 
-
+.new-button {
+  padding-left: 15px; }
 
 
 

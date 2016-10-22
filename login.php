@@ -17,7 +17,7 @@
 
   <body>
     <div class="container">
-      <form class="form-signin" method="POST" action="validaLogin.php">
+      <form class="form-signin" method="POST" action="valida-login.php">
         <img src="logo.png"/>
         <label for="inputEmail" class="sr-only">Usuário</label>
 

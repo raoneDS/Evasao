@@ -21,12 +21,12 @@ class Curso implements JsonSerializable{
 
   public function getSigla()
   {
-    return $this->duracao;
+    return $this->sigla;
   }
 
-  public function setSigla($duracao)
+  public function setSigla($sigla)
   {
-    $this->duracao = $duracao;
+    $this->sigla = $sigla;
   }
 
   public function getDuracao()
