@@ -11,7 +11,6 @@ if(!empty($_POST)){
 	$cursoController = new CursoController();
   	$cursoController->inseriCurso($_POST["nome-curso"], $_POST["sigla"], $_POST["duracao"]);
   	header("location:cursos.php");
-
 }
 
 $page_title = "Cadastrar Curso";

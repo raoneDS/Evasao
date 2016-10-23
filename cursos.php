@@ -83,11 +83,27 @@ include_once 'header.php';
         <script type="text/javascript">
 
           $(document).ready(function() {
-            $('#datatable').DataTable( {
+            var dataTable = $('#datatable').DataTable( {
                 "language": {
                     "url": "plugins/datatables.net/Portuguese-Brasil.json"
                 }
             } );
+
+      $('#datatable tbody').on( 'click', 'tr', function () {
+        console.log( dataTable.row(this).data() );
+
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }   
+        else {
+            //dataTable.$('tr.selected').removeClass('selected');
+            var ok = $(this).addClass('selected');
+            console.log(ok);
+        }
+      });
+
+
+            
           } );
 
         </script>

@@ -25,15 +25,11 @@ class CursoDAO extends DB implements IDAO {
 		$sigla = $curso->getSigla();
 		$duracao = $curso->getDuracao();
 
-		
-
-
 		$sql = "INSERT INTO cursos (nome_curso, sigla, duracao) VALUES (:nome, :sigla, :duracao)";
 	    $stmt = DB::prepare($sql);
 	    $stmt->bindParam(":nome", $nome);
 	    $stmt->bindParam(":sigla", $sigla);
 	    $stmt->bindParam(":duracao", $duracao);
-
 	    $stmt->execute();
 	}
 
