@@ -3,14 +3,20 @@
 include_once 'Classes/Model/Usuario.php';
 include_once 'Classes/DAO/UsuarioDAO.php';
 
-class UsuarioController{
 
-	public function __construct()
-	{
 
+if($_REQUEST['acao']){
+	$resultado = true;
+	switch ($_REQUEST['acao']){
+		case 'list':
+			$resultado = listaUsuarios();
+			break;
 	}
+	echo $resultado;
+}
 
-	public function inseriUsuario($nome, $login, $senha, $situacao, $idProfessor){
+
+	function inseriUsuario($nome, $login, $senha, $situacao, $idProfessor){
 
 		$usuario = new Usuario();
 
@@ -20,18 +26,17 @@ class UsuarioController{
 		$usuarioDAO->insert($usuario);
 	}
 
-	public function listaUsuarios(){
+	function listaUsuarios(){
 		$usuarioDAO = new UsuarioDAO();
 		$lista = $usuarioDAO->listAll();
 
 		return $lista;
 	}
 
-	public function validaLogin($login, $senha){
+	function validaLogin($login, $senha){
 		$usuarioDAO = new UsuarioDAO();
 		$resultado = $usuarioDAO->validaLogin($login, $senha);
 
 		return $resultado;
 	}
-}
 ?>
