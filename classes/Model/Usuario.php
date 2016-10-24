@@ -1,15 +1,15 @@
 <?php
 include_once 'Classes/Model/Pessoa.php';
-class Usuario extends Pessoa{
+class Usuario extends Pessoa implements JsonSerializable{
 
   private $login;
   private $senha;
   private $ativo;
 
-  public function __construct($login, $senha, $ativo){
+  public function __construct($nome, $dataNascimento, $sexo, $login, $senha){
+    parent::__construct($nome, $dataNascimento, $sexo);
     $this->login = $login;
     $this->senha = $senha;
-    $this->ativo = $ativo;
   }
 
   public function getLogin()
@@ -32,14 +32,15 @@ class Usuario extends Pessoa{
     $this->senha = $senha;
   }
 
-  public function getAtivado()
-  {
-    return $this->ativado;
-  }
 
-  public function setAtivado($ativado)
-  {
-    $this->ativado = $ativado;
-  }
+    public function jsonSerialize() {
+
+        return [
+          'login' => $this->login,
+          'senha' => $this->senha
+        ];
+    }
+
+
 }
 ?>

@@ -29,8 +29,14 @@ include_once 'header.php';
 
                   <!-- #top -->
                   <div id="top" class="row">
-                    <div class="col-sm-6 new-button">
-                        <a href="novo-curso.php" class="btn btn-primary pull-left h2">Novo Usuário</a>
+                    <div class="col-sm-1 new-button">
+                        <a href="cadUsuario.php" class="btn btn-primary pull-left h2">Inserir</a>
+                    </div>  
+                    <div class="col-sm-1 new-button">
+                        <a id="editar" class="btn btn-primary pull-left h2">Editar</a>
+                    </div>
+                    <div class="col-sm-1 new-button">
+                        <a id="excluir" class="btn btn-danger pull-left h2">Excluir</a>
                     </div>  
                   </div> 
                   <!-- /#top -->
@@ -65,20 +71,14 @@ include_once 'header.php';
 
     $(document).ready(function() {
       var dataTable = $('#datatable').DataTable( {
-          //   buttons: [
-          //     'selectRows',
-          //     'selectColumns',
-          //     'selectCells'
-          // ],
-          select: true,
           "language": {
             "url": "plugins/datatables.net/Portuguese-Brasil.json"
           },
           "processing": true,
           "serverSide": true,
           "ajax":{
-              url :'Classes/Control/UsuarioController.php', // json datasource
-              type: "post",  // method  , by default get
+              url :'Classes/Control/UsuarioController.php',
+              type: "post",
               data: {acao: 'list'}
           },
           "columns" :[
@@ -90,15 +90,6 @@ include_once 'header.php';
           ]
       });
 
-    //   $('#datatable').on( 'click', 'tbody tr', function () {
-    //     if ( dataTable.row( this, { selected: true } ).any() ) {
-    //         dataTable.row( this ).deselect();
-    //     }
-    //     else {
-    //         dataTable.row( this ).select();
-    //     }
-    // });
-
     $('#datatable tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
@@ -106,6 +97,20 @@ include_once 'header.php';
         else {
             dataTable.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+        }
+    });
+
+    $('#editar').click( function () {
+        alert( dataTable.rows('.selected').data().length +' row(s) selected' );
+    });
+
+    $('#excluir').click( function () {
+        var user = dataTable.row('.selected').data();
+        //console.log(user.id_usuario);
+        if(user){
+          $.post('classes/Control/UsuarioController.php', {acao: 'delete', id: user.id_usuario}, function(data, textStatus, xhr){
+            console.log(textStatus);
+          });
         }
     });
 
