@@ -16,7 +16,22 @@ class CursoDAO extends DB implements IDAO {
 		$sql = "SELECT * FROM cursos";
 		$stmt = DB::prepare($sql);
 		$stmt->execute();
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$listaCursos = new ArrayObject(); 
+
+		while($registro = $stmt->fetch(PDO::FETCH_OBJ)){
+
+			$curso = new Curso(); 
+
+			$curso->setId($registro->id_curso);
+			$curso->setNome($registro->nome_curso);
+			$curso->setSigla($registro->sigla);
+			$curso->setDuracao($registro->duracao);
+
+			$listaCursos->append($curso);
+		}
+
+		return $listaCursos;
 	}
 	 
 	public function insert($curso) {
@@ -25,15 +40,11 @@ class CursoDAO extends DB implements IDAO {
 		$sigla = $curso->getSigla();
 		$duracao = $curso->getDuracao();
 
-		
-
-
 		$sql = "INSERT INTO cursos (nome_curso, sigla, duracao) VALUES (:nome, :sigla, :duracao)";
 	    $stmt = DB::prepare($sql);
 	    $stmt->bindParam(":nome", $nome);
 	    $stmt->bindParam(":sigla", $sigla);
 	    $stmt->bindParam(":duracao", $duracao);
-
 	    $stmt->execute();
 	}
 

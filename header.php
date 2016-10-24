@@ -25,72 +25,36 @@
     <!-- Select2 -->
     <link href="plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
 
+    <!-- Select -->
+    <link href="plugins/datatables.net-bs/css/dataTables.bootstrap.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.bootstrap.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.bootstrap.min.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.bootstrap4.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.bootstrap4.min.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.dataTables.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.dataTables.min.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.foundation.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.foundation.min.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.jqueryui.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.jqueryui.min.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.semanticui.css" rel="stylesheet">
+    <link href="plugins/datatables.net-bs/css/select.semanticui.min.css" rel="stylesheet">
+
     <!-- Datatables -->
     <link href="plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
     <link href="plugins/datatables.net-buttons-bs/css/buttons.bootstrap.min.css" rel="stylesheet">
     <link href="plugins/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="plugins/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="plugins/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css" rel="stylesheet">
+
+    <!-- DatePicker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- JQuery -->
     <script src="plugins/jquery/dist/jquery.min.js"></script>
-    <!-- Bootstrap -->
-    <script src="plugins/bootstrap/dist/js/bootstrap.min.js"></script>
-    <?php /*
-    <!-- FastClick -->
-    <script src="plugins/fastclick/lib/fastclick.js"></script>
-    <!-- NProgress -->
-    <script src="plugins/nprogress/nprogress.js"></script>
-    <!-- Chart.js -->
-    <script src="plugins/Chart.js/dist/Chart.min.js"></script>
-    <!-- gauge.js -->
-    <script src="plugins/bernii/gauge.js/dist/gauge.min.js"></script>
-    <!-- bootstrap-progressbar -->
-    <script src="plugins/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
-    <!-- iCheck -->
-    <script src="plugins/iCheck/icheck.min.js"></script>
-    <!-- Skycons -->
-    <script src="plugins/skycons/skycons.js"></script>
-    <!-- Flot -->
-    <script src="plugins/Flot/jquery.flot.js"></script>
-    <script src="plugins/Flot/jquery.flot.pie.js"></script>
-    <script src="plugins/Flot/jquery.flot.time.js"></script>
-    <script src="plugins/Flot/jquery.flot.stack.js"></script>
-    <script src="plugins/Flot/jquery.flot.resize.js"></script>
-    <!-- Flot plugins -->
-    <script src="js/flot/jquery.flot.orderBars.js"></script>
-    <script src="js/flot/date.js"></script>
-    <script src="js/flot/jquery.flot.spline.js"></script>
-    <script src="js/flot/curvedLines.js"></script>
-    <!-- bootstrap-daterangepicker -->
-    <script src="js/moment/moment.min.js"></script>
-    <script src="js/datepicker/daterangepicker.js"></script>
-    */?>
-    <!-- Datatables -->
-    <script src="plugins/datatables.net/js/jquery.dataTables.min.js"></script>
-    <script src="plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-    <script src="plugins/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-    <script src="plugins/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-    <script src="plugins/datatables.net-buttons/js/buttons.flash.min.js"></script>
-    <script src="plugins/datatables.net-buttons/js/buttons.html5.min.js"></script>
-    <script src="plugins/datatables.net-buttons/js/buttons.print.min.js"></script>
-    <script src="plugins/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-    <script src="plugins/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-    <script src="plugins/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-    <script src="plugins/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-    <script src="plugins/datatables.net-scroller/js/datatables.scroller.min.js"></script>
-    <script src="plugins/jszip/dist/jszip.min.js"></script>
-    <script src="plugins/pdfmake/build/pdfmake.min.js"></script>
-    <script src="plugins/pdfmake/build/vfs_fonts.js"></script>
-
-    <!-- Select2 -->
-    <script src="plugins/select2/dist/js/select2.min.js"></script>
-
-    <!-- Custom Theme Scripts -->
-    <script src="js/custom.js"></script>
-
-    <!-- Leaftlet -->
-    <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
 
   </head>
 

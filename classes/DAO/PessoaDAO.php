@@ -29,9 +29,15 @@ class PessoaDAO extends DB implements IDAO {
 				VALUES 	(:data_nascimento, :sexo, :nome)";
 
 		$stmt = $this->prepare($sql);
-		$stmt->bindParam(":data_nascimento",$pessoa['$data_nascimento']);
-		$stmt->bindParam(":sexo",$pessoa['sexo']);
-		$stmt->bindParam(":nome",$pessoa['nome']);
+
+		$data_nascimento = $pessoa->getDataNascimento();
+		$sexo = $pessoa->getSexo();
+		$nome = $pessoa->getNome();
+
+
+		$stmt->bindParam(":data_nascimento",$data_nascimento);
+		$stmt->bindParam(":sexo",$sexo);
+		$stmt->bindParam(":nome",$nome);
 		$stmt->execute();
 		$id = $this->getLastId();
 		return $id['id_pessoa'];

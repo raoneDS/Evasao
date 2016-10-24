@@ -1,5 +1,5 @@
 <?php
-abstract class Pessoa{
+abstract class Pessoa implements JsonSerializable{
     protected $nome;
     protected $dataNascimento;
     protected $sexo;    
@@ -9,7 +9,6 @@ abstract class Pessoa{
       $this->nome = $nome;
       $this->dataNascimento = $dataNascimento;
       $this->sexo = $sexo;
-
     }
 
     public function getNome(){
@@ -36,5 +35,12 @@ abstract class Pessoa{
       $this->sexo = $sexo;
     }
 
+    public function jsonSerialize() {
+        return [
+          'nome' => $this->nome,
+          'data_nascimento' => $this->dataNascimento,
+          'sexo' => $this->sexo
+        ];
+    }
 }
 ?>

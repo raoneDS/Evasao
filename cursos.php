@@ -1,14 +1,11 @@
 <?php 
 
-include_once 'Classes/Control/CursoController.php';
+//include_once 'Classes/Control/CursoController.php';
 
 session_start();
 if(!isset($_SESSION["id_usuario"])){
   header("location:login.php");
 }
-
-$cursoController = new CursoController();
-$listaCursos = $cursoController->listaCursos();
 
 $page_title = "Cursos";
 include_once 'header.php';
@@ -33,7 +30,9 @@ include_once 'header.php';
                   <!-- #top -->
                   <div id="top" class="row">
                     <div class="col-sm-6 new-button">
-                        <a href="novo-curso.php" class="btn btn-primary pull-left h2">Novo Curso</a>
+                        <a href="novo-curso.php" class="btn btn-primary pull-left h2 action-button">Inserir</a>
+                        <a id="editar" class="btn btn-warning pull-left h2 action-button">Editar</a>
+                        <a id="excluir" class="btn btn-danger pull-left h2 action-button">Excluir</a>
                     </div>  
                   </div> 
                   <!-- /#top -->
@@ -49,25 +48,8 @@ include_once 'header.php';
                           <th class="col-sm-3 text-center">Nome</th>
                           <th class="col-sm-1 text-center">Sigla</th>
                           <th class="col-sm-1 text-center">Duração</th>
-                          <th class="actions col-sm-1 text-center">Ações</th>
                         </tr>
                       </thead>
-                      <tbody>
-                      <?php
-                      foreach ($listaCursos as $row) {
-                        echo '<tr>';
-                          echo '<td class="text-center">'.$row['id_curso'].'</td>';
-                          echo '<td>'.$row['nome_curso'].'</td>';
-                          echo '<td class="text-center">'.$row['sigla'].'</td>';
-                          echo '<td class="text-center">'.$row['duracao'].'</td>';
-                          echo '<td class="actions text-center">
-                            <a class="btn btn-warning btn-xs" href="edit.html">Editar</a>
-                            <a class="btn btn-danger btn-xs"  href="#" data-toggle="modal" data-target="#delete-modal">Excluir</a>';
-                          echo '</td>';
-                        echo '</tr>';
-                      }
-                      ?>
-                      </tbody>
                     </table>
                   </div>
                   </div>
@@ -82,14 +64,31 @@ include_once 'header.php';
 
         <script type="text/javascript">
 
-          $(document).ready(function() {
-            $('#datatable').DataTable( {
-                "language": {
-                    "url": "plugins/datatables.net/Portuguese-Brasil.json"
-                }
-            } );
-          } );
-
+        $(window).load(function(){
+            var dataTable = $('#datatable').DataTable( 
+            {
+              "language": 
+                {
+                  "url": "plugins/datatables.net/Portuguese-Brasil.json" 
+                },
+              "processing": true,
+              "serverSide": true,
+              "ajax":
+                {
+                  url :'Classes/Control/CursoController.php',
+                  type: "post",
+                  data: {acao: 'list'} 
+                },
+              "columns" :
+                [
+                  {"data":"id"},
+                  {"data":"nome"},
+                  {"data":"sigla"},
+                  {"data":"duracao"} 
+                ]
+            });
+            
+        });
         </script>
 
 <?php 
