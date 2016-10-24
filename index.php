@@ -10,11 +10,14 @@ if(!isset($_SESSION["id_usuario"])){
 }
 
 $alunoController = new AlunoController();
-$alunos = $alunoController->getAlunosCSV();
-$loadDB = json_encode(false);
 
-// $alunos = getAlunosDB();
-// $loadDB = json_encode(true);
+
+$alunos = $alunoController->getAlunosDB();
+$loadDB = json_encode(true);
+if($alunos == 'null'){
+	$alunos = $alunoController->getAlunosCSV();
+	$loadDB = json_encode(false);
+}
 
 $page_title = "Home";
 include_once 'header.php';
@@ -147,7 +150,6 @@ include_once 'header.php';
 		function createStructure(){
 			if(st == google.maps.GeocoderStatus.OK){
 				listaAlunos[index].endereco.ponto = localizacao;
-				console.log(index);
 				index++;
 				pontos++;
 			}else if(st == google.maps.GeocoderStatus.ZERO_RESULTS){

@@ -121,6 +121,9 @@
     <!-- Leaftlet -->
     <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
 
+    <!-- Google API -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwUpN5IglA1uzE_E_VbwvtZtHSr5oZKP4"></script>
+
   </head>
 
   <body class="nav-md">
