@@ -37,7 +37,10 @@ class AlunoDAO extends DB implements IDAO {
 				inner join cursos on matriculas.id_curso = cursos.id_curso";
 				
 		$stmt = DB::prepare($sql);
-		$stmt->execute();	
+		$stmt->execute();
+
+		if($stmt->rowCount() == 0)
+			return null;
 
 		$alunos = array();
 		while ($fetch = $stmt->fetch(PDO::FETCH_ASSOC)){		
