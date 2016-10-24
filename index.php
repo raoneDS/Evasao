@@ -9,11 +9,12 @@ if(!isset($_SESSION["id_usuario"])){
   header("location:login.php");
 }
 
-// $alunos = getAlunosCSV();
-// $loadDB = json_encode(false);
+$alunoController = new AlunoController();
+$alunos = $alunoController->getAlunosCSV();
+$loadDB = json_encode(false);
 
-$alunos = getAlunosDB();
-$loadDB = json_encode(true);
+// $alunos = getAlunosDB();
+// $loadDB = json_encode(true);
 
 $page_title = "Home";
 include_once 'header.php';

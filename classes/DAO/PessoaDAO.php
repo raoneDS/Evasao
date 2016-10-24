@@ -42,5 +42,13 @@ class PessoaDAO extends DB implements IDAO {
 		$id = $this->getLastId();
 		return $id['id_pessoa'];
 	}
+
+	public function delete($id) {
+		$sql = "DELETE FROM pessoas WHERE id_pessoa = :id";
+		$stmt = DB::prepare($sql);
+		$stmt->bindParam(":id",$id, PDO::PARAM_INT);
+		return $stmt->execute();
+	}
+
 }
 ?>

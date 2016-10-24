@@ -15,16 +15,6 @@ class UsuarioDAO extends DB implements IDAO {
 
 	public function listAll() {
 
-		$columns = array(
-		// datatable column index  => database column name
-		    0 => 'ID',
-		    1 => 'Nome',
-		    2 => 'Sexo',
-		    3 => 'Data Nascimento',
-		    4 => 'Username',
-		    5 => 'Senha'
-		);
-
 		$sql = "SELECT *
 
 			from usuarios
@@ -36,19 +26,8 @@ class UsuarioDAO extends DB implements IDAO {
 		
 		$totaldata = $totalfiltered = $stmt->rowCount();
 
-		// $data = array();
-		// while ($fetch = $stmt->fetch(PDO::FETCH_ASSOC)){
-		//     $linha=array(); 
-		//     $linha[] = $fetch["id_usuario"];
-		//     $linha[] = $fetch["login"];
-		//     $linha[] = $fetch["senha"];
-		//     $linha[] = $fetch["nome"];
-		//     $linha[] = $fetch["sexo"];
-		//     $linha[] = $fetch["data_nascimento"];
-		//     $data[] = $linha;
-		// }
+
 		$data = $stmt->fetchAll(PDO::FETCH_ASSOC);
-		//var_dump($data);
 
 		$json_data = array(
 		                "draw"            => intval( $_REQUEST['draw'] ),
@@ -105,7 +84,7 @@ class UsuarioDAO extends DB implements IDAO {
 	}
 
 	public function delete($id) {
-		$sql = "DELETE FROM usuarios WHERE id_usuario = :id";
+		$sql = "DELETE FROM usuarios WHERE id_pessoa = :id";
 		$stmt = DB::prepare($sql);
 		$stmt->bindParam(":id",$id, PDO::PARAM_INT);
 		return $stmt->execute();

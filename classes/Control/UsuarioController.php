@@ -6,44 +6,47 @@ include_once 'Classes/DAO/UsuarioDAO.php';
 if($_REQUEST['acao']){
 	extract($_REQUEST);
 	$resultado = true;
+	$usuarioController = new UsuarioController();
 	switch ($acao){
 		case 'list':
-			$resultado = listaUsuarios();
+			$resultado = $usuarioController->listaUsuarios();
 			break;	
 		case 'delete':
-			$resultado = delete($id);
+			$resultado = $usuarioController->delete($id_pessoa);
 			break;
 		case 'insert':
 			$usuario = new Usuario($nome, $data_nascimento, $sexo, $username, $senha);
-			inseriUsuario($usuario);
+			$usuarioController->inseriUsuario($usuario);
 			$resultado = "ok";
 			break;	
 	}
 	echo $resultado;
 }
 
+class UsuarioController{
 
-	function inseriUsuario($usuario){
+	public function inseriUsuario($usuario){
 		$usuarioDAO = new UsuarioDAO();
 		$usuarioDAO->insert_transction($usuario);
 	}
 
-	function listaUsuarios(){
+	public function listaUsuarios(){
 		$usuarioDAO = new UsuarioDAO();
 		$lista = $usuarioDAO->listAll();
 
 		return $lista;
 	}
 
-	function validaLogin($login, $senha){
+	public function validaLogin($login, $senha){
 		$usuarioDAO = new UsuarioDAO();
 		$resultado = $usuarioDAO->validaLogin($login, $senha);
 
 		return $resultado;
 	}
 
-	function delete($id){
+	public function delete($id){
 		$usuarioDAO = new UsuarioDAO();
-		echo $usuarioDAO->delete($id);
+		$usuarioDAO->delete($id);
 	}
+}
 ?>
