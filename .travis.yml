@@ -1,0 +1,21 @@
+language: php
+
+php:
+  - '5.4'
+  - '5.5'
+  - '5.6'
+
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+  sonarqube: true
+
+script: 
+  - phpunit testes/Test.php
+  - sonar-scanner -Dsonar.login=32a1b659ead13eeb7a3a8b2deff4ddf1eb443d45
+
+
+notifications:
+  slack: evasao:LbVZOEbgooG84HhpV7HQEahl
+  email: false
