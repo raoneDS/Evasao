@@ -1,19 +1,12 @@
 <?php
 class Curso implements JsonSerializable{
 
-  private $idCurso;
   private $nome;
   private $sigla;
   private $duracao;
 
-  public function getId()
-  {
-    return $this->idCurso;
-  }
-
-  public function setId($idCurso)
-  {
-    $this->idCurso = $idCurso;
+  public function __construct($nome){
+    $this->nome = $nome;
   }
 
   public function getNome()
@@ -48,7 +41,6 @@ class Curso implements JsonSerializable{
 
   public function jsonSerialize() {
       return [
-        'id' => $this->idCurso,
         'nome' => $this->nome,
         'sigla' => $this->sigla,
         'duracao' => $this->duracao

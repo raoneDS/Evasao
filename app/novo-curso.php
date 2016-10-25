@@ -7,6 +7,12 @@ if(!isset($_SESSION["id_usuario"])){
   header("location:login.php");
 }
 
+if(!empty($_POST)){
+	$cursoController = new CursoController();
+  	$cursoController->inseriCurso($_POST["nome-curso"], $_POST["sigla"], $_POST["duracao"]);
+  	header("location:cursos.php");
+}
+
 $page_title = "Cadastrar Curso";
 include_once 'header.php';
 ?>
@@ -65,8 +71,7 @@ include_once 'header.php';
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button type="submit" class="btn btn-primary">Cadastrar</button>
-                          <button id="limpar" class="btn btn-default">Limpar Campos</button>
-                          <button href="cursos.php" id="cancelar" class="btn btn-danger">Cancelar</button>
+                          <a href="cursos.php" class="btn btn-danger">Cancelar</a>
                         </div>
                       </div>
 
@@ -79,33 +84,6 @@ include_once 'header.php';
           </div>
         </div>
         <!-- /page content -->
-
-        <script type="text/javascript">
-          $(window).load(function(){
-
-              jQuery('#novo-usuario').submit(function(){
-
-                var nome_curso = $("#nome-curso").val();
-                var sigla = $("#sigla").val();
-                var duracao = $("#duracao").val();
-
-                jQuery.ajax({
-                  type: "POST",
-                  url: "classes/Control/CursoController.php",
-                  data: {acao: 'insert', nome_curso:nome_curso, sigla:sigla, duracao:duracao},
-                  success: function( data ){
-                    if(data=="ok"){
-                      limparCampos();
-                      abreModal();
-                    }
-                  }
-                });
-                return false;
-              });
-
-          });
-
-        </script>
 
 <?php 
 include_once 'footer.php';

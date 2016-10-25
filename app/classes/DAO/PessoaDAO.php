@@ -29,10 +29,15 @@ class PessoaDAO extends DB implements IDAO {
 				VALUES 	(:data_nascimento, :sexo, :nome)";
 
 		$stmt = $this->prepare($sql);
-
-		$data_nascimento = $pessoa->getDataNascimento();
-		$sexo = $pessoa->getSexo();
-		$nome = $pessoa->getNome();
+		if(is_object($pessoa)){
+			$data_nascimento = $pessoa->getDataNascimento();
+			$sexo = $pessoa->getSexo();
+			$nome = $pessoa->getNome();
+		}else{
+			$data_nascimento = $pessoa['data_nascimento'];
+			$sexo = $pessoa['sexo'];
+			$nome = $pessoa['nome'];
+		}
 
 
 		$stmt->bindParam(":data_nascimento",$data_nascimento);
@@ -42,5 +47,13 @@ class PessoaDAO extends DB implements IDAO {
 		$id = $this->getLastId();
 		return $id['id_pessoa'];
 	}
+
+	public function delete($id) {
+		$sql = "DELETE FROM pessoas WHERE id_pessoa = :id";
+		$stmt = DB::prepare($sql);
+		$stmt->bindParam(":id",$id, PDO::PARAM_INT);
+		return $stmt->execute();
+	}
+
 }
 ?>

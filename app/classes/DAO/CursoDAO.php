@@ -16,22 +16,7 @@ class CursoDAO extends DB implements IDAO {
 		$sql = "SELECT * FROM cursos";
 		$stmt = DB::prepare($sql);
 		$stmt->execute();
-
-		$listaCursos = new ArrayObject(); 
-
-		while($registro = $stmt->fetch(PDO::FETCH_OBJ)){
-
-			$curso = new Curso(); 
-
-			$curso->setId($registro->id_curso);
-			$curso->setNome($registro->nome_curso);
-			$curso->setSigla($registro->sigla);
-			$curso->setDuracao($registro->duracao);
-
-			$listaCursos->append($curso);
-		}
-
-		return $listaCursos;
+		return $stmt->fetchAll(PDO::FETCH_ASSOC);
 	}
 	 
 	public function insert($curso) {

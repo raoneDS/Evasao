@@ -9,17 +9,22 @@ if(!isset($_SESSION["id_usuario"])){
   header("location:login.php");
 }
 
-// $alunos = getAlunosCSV();
-// $loadDB = json_encode(false);
+$alunoController = new AlunoController();
 
-$alunos = getAlunosDB();
+
+$alunos = $alunoController->getAlunosDB();
 $loadDB = json_encode(true);
+if($alunos == 'null'){
+	$alunos = $alunoController->getAlunosCSV();
+	$loadDB = json_encode(false);
+}
 
 $page_title = "Home";
 include_once 'header.php';
 
 ?>
-	<!-- page content -->
+
+		<!-- page content -->
 	<div class="right_col" role="main">
 		<div class="">
             <div class="filters-bar">
@@ -58,7 +63,6 @@ include_once 'header.php';
         <!-- /page content -->
 
 	<script>
-	$(window).load(function(){
 		// VARIAVEIS DE MAPA //
 		var marker;
 		var coordanadaInicial = [-20.1625356,-40.401568];
@@ -72,14 +76,31 @@ include_once 'header.php';
 			id: 'mapbox.streets'
 		}).addTo(mymap);
 
+		var IconRoxo = L.icon({
+		    iconUrl: 'icons/roxo.png',
+		    iconSize:     [25, 40] // size of the icon
+		    // shadowSize:   [50, 64], // size of the shadow
+		    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+		    // shadowAnchor: [4, 62],  // the same for the shadow
+		    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
+		});
+
 		var blueIcon = L.icon({
 		    iconUrl: 'icons/blue_marker.png',
 		    iconSize:     [36, 36] // size of the icon
+		    // shadowSize:   [50, 64], // size of the shadow
+		    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+		    // shadowAnchor: [4, 62],  // the same for the shadow
+		    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 		});
 
 		var pinkIcon = L.icon({
 		    iconUrl: 'icons/pink_marker.png',
 		    iconSize:     [36, 36] // size of the icon
+		    // shadowSize:   [50, 64], // size of the shadow
+		    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
+		    // shadowAnchor: [4, 62],  // the same for the shadow
+		    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 		});
 
 		// ------------------------------------- //
@@ -129,7 +150,6 @@ include_once 'header.php';
 		function createStructure(){
 			if(st == google.maps.GeocoderStatus.OK){
 				listaAlunos[index].endereco.ponto = localizacao;
-				console.log(index);
 				index++;
 				pontos++;
 			}else if(st == google.maps.GeocoderStatus.ZERO_RESULTS){
@@ -153,6 +173,10 @@ include_once 'header.php';
 			});
 		}
 
+	 	function abreModal(){
+	 		$('#myModal').modal('toggle');
+	 	}	
+
 		$('#recarregar').click(function(event) {
 			alert("Atualizar DB");
 			$('#myModal').modal('toggle');
@@ -164,7 +188,7 @@ include_once 'header.php';
 			placeholder: "Situação de Matrícula",
 		  	allowClear: true
 		});
-	});
+
 	</script>
 
 <?php 
