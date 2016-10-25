@@ -32,14 +32,13 @@ class Usuario extends Pessoa implements JsonSerializable{
     $this->senha = $senha;
   }
 
+  public function jsonSerialize() {
 
-    public function jsonSerialize() {
-
-        return [
-          'login' => $this->login,
-          'senha' => $this->senha
-        ];
-    }
+      return [
+        'login' => $this->login,
+        'senha' => $this->senha
+      ];
+  }
 
 
 }

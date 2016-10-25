@@ -13,10 +13,25 @@ class CursoDAO extends DB implements IDAO {
 	}
 	 
 	public function listAll() {
-		$sql = "SELECT * FROM cursos";
+		$sql = "SELECT * FROM cursos c ORDER BY c.id_curso";
 		$stmt = DB::prepare($sql);
 		$stmt->execute();
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+
+		$listaCursos = new ArrayObject(); 
+
+		while($registro = $stmt->fetch(PDO::FETCH_OBJ)){
+
+			$curso = new Curso(); 
+
+			$curso->setId($registro->id_curso);
+			$curso->setNome($registro->nome_curso);
+			$curso->setSigla($registro->sigla);
+			$curso->setDuracao($registro->duracao);
+
+			$listaCursos->append($curso);
+		}
+
+		return $listaCursos;
 	}
 	 
 	public function insert($curso) {
