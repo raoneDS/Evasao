@@ -5,15 +5,21 @@ php:
   - '5.5'
   - '5.6'
 
+jdk:
+  - oraclejdk8
+  
 addons:
   apt:
     packages:
       - oracle-java8-installer
   sonarqube: true
-
+  
+before_script:
+  - export JAVA_HOME=/usr/lib/jvm/java-8-oracle
+  
 script: 
   - phpunit testes/Test.php
-  - sonar-scanner -Dsonar.login=b1389d4ef817a6c1b0f6049dcf383ede3b6997a5
+  - sonar-scanner
 
 
 notifications:
