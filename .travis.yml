@@ -13,7 +13,7 @@ addons:
 
 script: 
   - phpunit testes/Test.php
-  - sonar-scanner -Dsonar.login=32a1b659ead13eeb7a3a8b2deff4ddf1eb443d45
+  - sonar-scanner -Dsonar.login=b1389d4ef817a6c1b0f6049dcf383ede3b6997a5
 
 
 notifications:
