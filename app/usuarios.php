@@ -1,7 +1,10 @@
 <?php 
 
+<<<<<<< HEAD
 include_once 'Classes/Control/CursoController.php';
 
+=======
+>>>>>>> cad-curso
 session_start();
 if(!isset($_SESSION["id_usuario"])){
   header("location:login.php");
@@ -43,7 +46,11 @@ include_once 'header.php';
                         <label for="data_nascimento" class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">Data Nascimento<span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
+<<<<<<< HEAD
                           <input type="text" id="data_nascimento" name="data_nascimento required="required" class="form-control col-md-7 col-xs-12">
+=======
+                          <input type="text" id="data_nascimento" name="data_nascimento" required="required" class="form-control col-md-7 col-xs-12">
+>>>>>>> cad-curso
                         </div>
                       </div>
                       <div class="form-group">
@@ -113,6 +120,7 @@ include_once 'header.php';
 
                   <!-- #top -->
                   <div id="top" class="row">
+<<<<<<< HEAD
                     <div class="col-sm-1 new-button">
                          <a id="inserir" class="btn btn-primary pull-left h2">Inserir</a>
                     </div>  
@@ -122,6 +130,13 @@ include_once 'header.php';
                     <div class="col-sm-1 new-button">
                         <a id="excluir" class="btn btn-danger pull-left h2">Excluir</a>
                     </div>  
+=======
+                      <div class="col-sm-6 new-button">
+                        <a id="inserir" class="btn btn-primary pull-left h2 action-button">Inserir</a>
+                        <a id="editar" class="btn btn-primary pull-left h2 action-button">Editar</a>
+                        <a id="excluir" class="btn btn-danger pull-left h2 action-button">Excluir</a>
+                      </div>  
+>>>>>>> cad-curso
                   </div> 
                   <!-- /#top -->
 

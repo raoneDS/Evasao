@@ -63,6 +63,7 @@ include_once 'header.php';
         <!-- /page content -->
 
 	<script>
+	$(window).load(function(){
 		// VARIAVEIS DE MAPA //
 		var marker;
 		var coordanadaInicial = [-20.1625356,-40.401568];
@@ -188,7 +189,7 @@ include_once 'header.php';
 			placeholder: "Situação de Matrícula",
 		  	allowClear: true
 		});
-
+	});
 	</script>
 
 <?php 

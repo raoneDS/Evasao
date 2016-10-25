@@ -47,9 +47,14 @@
     <link href="plugins/datatables.net-fixedheader-bs/css/fixedHeader.bootstrap.min.css" rel="stylesheet">
     <link href="plugins/datatables.net-responsive-bs/css/responsive.bootstrap.min.css" rel="stylesheet">
     <link href="plugins/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css" rel="stylesheet">
+
+    <!-- DatePicker -->
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
 
     <!-- JQuery -->
     <script src="plugins/jquery/dist/jquery.min.js"></script>
+<<<<<<< HEAD:app/header.php
     <script src="plugins/jquery/dist/jquery-1.12.3.js"></script>
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
@@ -120,6 +125,9 @@
 
     <!-- Leaftlet -->
     <script src="https://unpkg.com/leaflet@1.0.1/dist/leaflet.js"></script>
+=======
+    <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
+>>>>>>> cad-curso:app/header.php
 
     <!-- Google API -->
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwUpN5IglA1uzE_E_VbwvtZtHSr5oZKP4"></script>
