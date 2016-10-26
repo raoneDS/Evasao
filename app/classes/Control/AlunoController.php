@@ -9,7 +9,6 @@ include_once 'Classes/Model/EnumEscolaOrigem.php';
 include_once 'Classes/Model/EnumSituacaoMatricula.php';
 
 include_once 'Classes/DAO/AlunoDAO.php';
-include_once 'Classes/DAO/EnderecoDAO.php';
 include_once 'Classes/DAO/HistoricoDAO.php';
 
 
@@ -78,10 +77,6 @@ class AlunoController{
 			$cont++;
 		}
 		fclose($arquivo);
-		// echo "<pre>";
-		// print_r($alunos);
-		// echo "</pre>";
-		// exit();
 		return json_encode($alunos);
 	}
 

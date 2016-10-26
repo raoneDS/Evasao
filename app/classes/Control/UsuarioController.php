@@ -27,7 +27,7 @@ class UsuarioController{
 
 	public function inseriUsuario($usuario){
 		$usuarioDAO = new UsuarioDAO();
-		$usuarioDAO->insert_transction($usuario);
+		$usuarioDAO->insert($usuario);
 	}
 
 	public function listaUsuarios(){

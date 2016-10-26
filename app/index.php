@@ -10,8 +10,6 @@ if(!isset($_SESSION["id_usuario"])){
 }
 
 $alunoController = new AlunoController();
-
-
 $alunos = $alunoController->getAlunosDB();
 $loadDB = json_encode(true);
 if($alunos == 'null'){

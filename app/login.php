@@ -18,7 +18,7 @@
   <body>
     <div class="container">
       <form class="form-signin" method="POST" action="valida-login.php">
-        <img src="logo.png"/>
+        <img src="images/logo.png"/>
         <label for="inputEmail" class="sr-only">Usuário</label>
 
         <input type="text" name="usuario" class="form-control" placeholder="Digitar o Usuário" required > <br/>
