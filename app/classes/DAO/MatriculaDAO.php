@@ -5,10 +5,9 @@ include_once 'IDAO.php';
 class MatriculaDAO extends DB implements IDAO {
 
 	public function findById($id) {
-	 	$sql = "SELECT * FROM matriculas WHERE id_aluno = :id_aluno #AND id_curso = :id_curso";
+	 	$sql = "SELECT * FROM matriculas WHERE id_aluno = :id_aluno";
 		$stmt = DB::prepare($sql);
 		$stmt->bindParam(":id_aluno",$id, PDO::PARAM_INT);
-		//$stmt->bindParam(":id_curso",$id, PDO::PARAM_INT);
 		$stmt->execute();
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
@@ -32,9 +31,26 @@ class MatriculaDAO extends DB implements IDAO {
 	    $stmt = DB::prepare($sql);
 
 	    
+	    $stmt->bindParam(":semestre_inicial", $matricula['semestreInicial']);
+	    $stmt->bindParam(":periodo_atual", $matricula['periodoAtual']);
+	   	$stmt->bindParam(":id_aluno", $id_aluno);
+
+	    $stmt->execute();
+	   
+	}
+
+	public function update($matricula) {
+
+		$sql = "UPDATE matriculas 
+				SET situacao_matricula = :situacao_matricula, semestre_inicial = :semestre_inicial, periodo_atual = :periodo_atual
+				WHERE numero_matricula = :numero_matricula";
+
+	    $stmt = DB::prepare($sql);
+
+	    $stmt->bindParam(":situacao_matricula",$matricula['situacao']);
 	    $stmt->bindParam(":semestre_inicial",$matricula['semestreInicial']);
 	    $stmt->bindParam(":periodo_atual",$matricula['periodoAtual']);
-	   	$stmt->bindParam(":id_aluno",$id_aluno);
+	   	$stmt->bindParam(":numero_matricula", $matricula['numero_matricula']);
 
 	    $stmt->execute();
 	   

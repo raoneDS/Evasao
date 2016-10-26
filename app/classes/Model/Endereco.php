@@ -4,16 +4,14 @@ class Endereco implements JsonSerializable{
     private $numero;
     private $bairro;
     private $cidade;
-    private $complemento;
     private $uf;
     private $posicaoGeografica;
 
-    public function __construct($rua, $numero, $bairro, $cidade, $complemento, $uf){
+    public function __construct($rua, $numero, $bairro, $cidade, $uf){
       $this->rua = $rua;
       $this->numero = $numero;
       $this->bairro = $bairro;
       $this->cidade = $cidade;
-      $this->complemento = $complemento;
       $this->uf = $uf;
     }
 
@@ -57,16 +55,8 @@ class Endereco implements JsonSerializable{
       $this->uf = $uf;
     }
 
-   public function getComplemento(){
+    public function getComplemento(){
       return $this->complemento;
-    }
-
-    public function setComplemento($complemento){
-      $this->complemento = $complemento;
-    }
-
-    public function getPosicaoGeografica(){
-      return $this->posicaoGeografica;
     }
 
     public function setPosicaoGeografica($posicaoGeografica){
@@ -83,7 +73,6 @@ class Endereco implements JsonSerializable{
           'rua' => $this->rua,
           'numero' => $this->numero,
           'bairro' => $this->bairro,
-          'complemento' => $this->complemento,
           'cidade' => $this->cidade,
           'uf' => $this->uf,
           'ponto' => $this->posicaoGeografica,

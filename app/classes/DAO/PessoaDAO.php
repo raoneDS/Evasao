@@ -20,9 +20,36 @@ class PessoaDAO extends DB implements IDAO {
 	}
 	 
 	public function listAll(){
+
 	}
 
 	public function insert($pessoa) {
+		$con = $this->getInstance();
+
+	    $sql = "INSERT INTO pessoas (data_nascimento, sexo, nome) 
+				VALUES 	(:data_nascimento, :sexo, :nome)";
+
+		$stmt = $this->prepare($sql);
+		if(is_object($pessoa)){
+			$data_nascimento = $pessoa->getDataNascimento();
+			$sexo = $pessoa->getSexo();
+			$nome = $pessoa->getNome();
+		}else{
+			$data_nascimento = $pessoa['data_nascimento'];
+			$sexo = $pessoa['sexo'];
+			$nome = $pessoa['nome'];
+		}
+
+
+		$stmt->bindParam(":data_nascimento",$data_nascimento);
+		$stmt->bindParam(":sexo",$sexo);
+		$stmt->bindParam(":nome",$nome);
+		$stmt->execute();
+		$id = $this->getLastId();
+		return $id['id_pessoa'];
+	}
+
+	public function update($pessoa, $idPessoa) {
 		$con = $this->getInstance();
 
 	    $sql = "INSERT INTO pessoas (data_nascimento, sexo, nome) 

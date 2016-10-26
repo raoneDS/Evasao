@@ -11,13 +11,7 @@ if(!isset($_SESSION["id_usuario"])){
 
 $alunoController = new AlunoController();
 
-
 $alunos = $alunoController->getAlunosDB();
-$loadDB = json_encode(true);
-if($alunos == 'null'){
-	$alunos = $alunoController->getAlunosCSV();
-	$loadDB = json_encode(false);
-}
 
 $page_title = "Home";
 include_once 'header.php';
@@ -64,6 +58,13 @@ include_once 'header.php';
 
 	<script>
 	$(window).load(function(){
+		$(".categorizeSelect").select2();
+
+		$(".situacaoSelect").select2({
+			placeholder: "Situação de Matrícula",
+		  	allowClear: true
+		});
+
 		// VARIAVEIS DE MAPA //
 		var marker;
 		var coordanadaInicial = [-20.1625356,-40.401568];
@@ -77,118 +78,30 @@ include_once 'header.php';
 			id: 'mapbox.streets'
 		}).addTo(mymap);
 
-		var IconRoxo = L.icon({
-		    iconUrl: 'icons/roxo.png',
-		    iconSize:     [25, 40] // size of the icon
-		    // shadowSize:   [50, 64], // size of the shadow
-		    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-		    // shadowAnchor: [4, 62],  // the same for the shadow
-		    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
-		});
-
 		var blueIcon = L.icon({
 		    iconUrl: 'icons/blue_marker.png',
 		    iconSize:     [36, 36] // size of the icon
-		    // shadowSize:   [50, 64], // size of the shadow
-		    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-		    // shadowAnchor: [4, 62],  // the same for the shadow
-		    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 		});
 
 		var pinkIcon = L.icon({
 		    iconUrl: 'icons/pink_marker.png',
 		    iconSize:     [36, 36] // size of the icon
-		    // shadowSize:   [50, 64], // size of the shadow
-		    // iconAnchor:   [22, 94], // point of the icon which will correspond to marker's location
-		    // shadowAnchor: [4, 62],  // the same for the shadow
-		    // popupAnchor:  [-3, -76] // point from which the popup should open relative to the iconAnchor
 		});
 
-		// ------------------------------------- //
 
-		localizacao = null;
-		bancoCheio = <?php echo $loadDB ?>;
-		listaAlunos = <?php echo $alunos ?>;
-		length = listaAlunos.length;
-		
-		if(!bancoCheio){
-			speed = 100;
-			pontos = 0;
-			st = null;
-			index = 0;
-			timer = setInterval(foundLocations, speed);
-		}else{
-			$.each(listaAlunos, function(i, aluno) {
-				localizacao = [aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt];
-				setLocation(localizacao, aluno);
-			});
-		}
+		listaAlunos = <?php echo $alunos; ?>;
+		if(listaAlunos != null){
+			for (var i = 0; i < listaAlunos.length; i++) {
+				var aluno = listaAlunos[i];
 
-		function foundLocations(){
-			searchAddress(listaAlunos[index]);
-		}
-
-		function searchAddress(aluno) {
-			endereco = aluno.endereco.rua +', '+aluno.endereco.numero+', '+aluno.endereco.bairro+', '+aluno.endereco.cidade+' - '+aluno.endereco.uf;
-			var geocoder = new google.maps.Geocoder();
-			geocoder.geocode({address: endereco}, function(results, status) {
-				st = status;
-				if(status == google.maps.GeocoderStatus.OK){
-					localizacao = [results[0].geometry.location.lat(), results[0].geometry.location.lng()];
-					setLocation(localizacao, aluno);
-				}
-				createStructure();
-			});
-		}
-
-		function setLocation(localizacao, aluno){
-			if(aluno.sexo == 'F')
-				L.marker(localizacao, {icon: pinkIcon}).addTo(mymap).bindPopup(aluno.nome+'<br>'+aluno.matricula.numeroMatricula);
-			else
-				L.marker(localizacao, {icon: blueIcon}).addTo(mymap).bindPopup(aluno.nome+'<br>'+aluno.matricula.numeroMatricula);
-		}
-
-		function createStructure(){
-			if(st == google.maps.GeocoderStatus.OK){
-				listaAlunos[index].endereco.ponto = localizacao;
-				index++;
-				pontos++;
-			}else if(st == google.maps.GeocoderStatus.ZERO_RESULTS){
-				console.log(listaAlunos[index].email,'endereco nao encontrado');
-				index++;
-			}else{
-				console.log(st,"em:",listaAlunos[index].matricula.numeroMatricula,listaAlunos[index].email,' new speed: ',speed);
-				clearInterval(timer);
-				speed += 200;
-				timer = setInterval(foundLocations, speed);
-			}if(index+1 >= length){
-				clearInterval(timer);
-				console.log("pontos: ",pontos);
-				insertDB();
+				if(aluno.sexo == 'F')
+					L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: pinkIcon}).addTo(mymap).bindPopup(aluno.nome+'<br>'+aluno.matricula.numeroMatricula);
+				else
+					L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: blueIcon}).addTo(mymap).bindPopup(aluno.nome+'<br>'+aluno.matricula.numeroMatricula);
 			}
 		}
-
-		function insertDB(){
-			$.post('classes/Control/AlunoController.php', {acao: 'saveData', alunos: listaAlunos}, function(data, textStatus, xhr){
-				console.log(textStatus);
-			});
-		}
-
-	 	function abreModal(){
-	 		$('#myModal').modal('toggle');
-	 	}	
-
-		$('#recarregar').click(function(event) {
-			alert("Atualizar DB");
-			$('#myModal').modal('toggle');
-		});
-
-		$(".categorizeSelect").select2();
-
-		$(".situacaoSelect").select2({
-			placeholder: "Situação de Matrícula",
-		  	allowClear: true
-		});
+		
+		
 	});
 	</script>
 

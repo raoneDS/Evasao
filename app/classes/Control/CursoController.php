@@ -2,23 +2,25 @@
 include_once 'Classes/Model/Curso.php';
 include_once 'Classes/DAO/CursoDAO.php';
 
-if($_REQUEST['acao']){
-	extract($_REQUEST);
-	$resultado = true;
-	$cursoController = new CursoController();
-	switch ($acao){
-		case 'list':
-			$resultado = $cursoController->listaCursosJson();
-			break;	
-		case 'delete':
-			$resultado = $cursoController->delete($id_curso);
-			break;
-		case 'insert':
-			$cursoController->inseriCurso($nome, $sigla, $duracao);
-			$resultado = "ok";
-			break;	
+if(isset($_REQUEST['acao'])){
+	if($_REQUEST['acao']){
+		extract($_REQUEST);
+		$resultado = true;
+		$cursoController = new CursoController();
+		switch ($acao){
+			case 'list':
+				$resultado = $cursoController->listaCursosJson();
+				break;	
+			case 'delete':
+				$resultado = $cursoController->delete($id_curso);
+				break;
+			case 'insert':
+				$cursoController->inseriCurso($nome, $sigla, $duracao);
+				$resultado = "ok";
+				break;	
+		}
+		echo $resultado;
 	}
-	echo $resultado;
 }
 
 class CursoController{

@@ -15,6 +15,14 @@ class AlunoDAO extends DB implements IDAO {
 		return $stmt->fetch(PDO::FETCH_ASSOC);
 	}
 
+	public function findByCpf($cpf) {
+	 	$sql = "SELECT * FROM alunos WHERE cpf = :cpf";
+		$stmt = DB::prepare($sql);
+		$stmt->bindParam(":cpf", $cpf);
+		$stmt->execute();
+		return $stmt->fetch(PDO::FETCH_ASSOC);
+	}
+
 	public function getLastId(){
 		$sql = "SELECT id_aluno FROM alunos ORDER BY id_aluno DESC LIMIT 1";
 		$stmt = DB::prepare($sql);
@@ -25,7 +33,7 @@ class AlunoDAO extends DB implements IDAO {
 	public function listAll(){
 		$sql = "SELECT 
 
-				alunos.id_aluno, nome, sexo, email, data_nascimento, renda_familiar, escola_origem, nome_curso,
+				alunos.id_aluno, cpf, nome, sexo, data_nascimento, renda_familiar, escola_origem, nome_curso,
 				numero_matricula, situacao_matricula, semestre_inicial, periodo_atual,
 				rua,  numero, bairro, complemento, cidade, uf, ST_X(ponto_mapa) as lat, ST_Y(ponto_mapa) as lgt
 
@@ -51,13 +59,13 @@ class AlunoDAO extends DB implements IDAO {
 
 			$ponto = new PosicaoGeografica($fetch['lat'],$fetch['lgt']);
 
-			$endereco = new Endereco($fetch['rua'],$fetch['numero'],$fetch['bairro'],$fetch['cidade'],$fetch['complemento'],$fetch['uf']);
+			$endereco = new Endereco($fetch['rua'],$fetch['numero'],$fetch['bairro'],$fetch['cidade'],$fetch['uf']);
 
 			
 			$endereco->setPosicaoGeografica($ponto);
 
 
-			$aluno = new Aluno($fetch['nome'],$fetch['data_nascimento'],$fetch['sexo'], $matricula, $endereco, $fetch['escola_origem'], $fetch['renda_familiar'], $fetch['email']);
+			$aluno = new Aluno($fetch['nome'],$fetch['data_nascimento'],$fetch['sexo'], $matricula, $endereco, $fetch['escola_origem'], $fetch['renda_familiar'], $fetch['cpf']);
 
 			$alunos[] = $aluno;
 		}
@@ -70,13 +78,14 @@ class AlunoDAO extends DB implements IDAO {
 		$id_aluno = null;
 		try{
 
-		    $sqlAluno = "INSERT INTO alunos (renda_familiar, escola_origem, id_pessoa, email) 
-		    				VALUES 	(:renda_familiar, :escola_origem, $id_pessoa, :email)";
+		    $sqlAluno = "INSERT INTO alunos (renda_familiar, escola_origem, id_pessoa, cpf) 
+		    				VALUES 	(:renda_familiar, :escola_origem, :id_pessoa, :cpf)";
 
 			$stmt = $this->prepare($sqlAluno);
 		   	$stmt->bindParam(":renda_familiar",$aluno['renda_familiar']);
 		    $stmt->bindParam(":escola_origem",$aluno['escola_origem']);
-		    $stmt->bindParam(":email",$aluno['email']);
+		    $stmt->bindParam(":id_pessoa",$id_pessoa);
+		    $stmt->bindParam(":cpf",$aluno['cpf']);
 		    $stmt->execute();
 		    $id_aluno = $this->getLastId();
 		    $id_aluno = $id_aluno['id_aluno'];
@@ -84,6 +93,26 @@ class AlunoDAO extends DB implements IDAO {
 		    echo "Error!: " . $e->getMessage() . "</br>"; 
 		}
 		return $id_aluno;
+	}
+
+	public function update($aluno, $idAluno) {
+
+		$id_aluno = null;
+		try{
+
+		    $sqlAluno = "UPDATE alunos 
+		    				SET renda_familiar = :renda_familiar, escola_origem = :escola_origem
+		    				WHERE id_aluno = :id_aluno";
+
+			$stmt = $this->prepare($sqlAluno);
+		   	$stmt->bindParam(":renda_familiar",$aluno['renda_familiar']);
+		    $stmt->bindParam(":escola_origem",$aluno['escola_origem']);
+		    $stmt->bindParam(":id_aluno",$idAluno);
+		    $stmt->execute();
+
+		}catch (Exception $e) {
+		    echo "Error!: " . $e->getMessage() . "</br>"; 
+		}
 	}
 
 	public function insert_transaction($aluno) {
