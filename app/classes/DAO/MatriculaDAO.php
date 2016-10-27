@@ -35,6 +35,7 @@ class MatriculaDAO extends DB implements IDAO {
 	    $stmt->bindParam(":periodo_atual", $matricula['periodoAtual']);
 	   	$stmt->bindParam(":id_aluno", $id_aluno);
 
+	   	//var_dump($sql);
 	    $stmt->execute();
 	   
 	}
@@ -52,6 +53,7 @@ class MatriculaDAO extends DB implements IDAO {
 	    $stmt->bindParam(":periodo_atual",$matricula['periodoAtual']);
 	   	$stmt->bindParam(":numero_matricula", $matricula['numero_matricula']);
 
+	   	//var_dump($sql);
 	    $stmt->execute();
 	   
 	}

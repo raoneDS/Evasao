@@ -56,7 +56,7 @@ class AlunoController{
 				$situacao = $arraySituacao[$dados[2]];
 				$matricula = new Matricula($semestre, $periodoAtual, $numeroMatricula, $situacao, $curso);
 
-				//testa se o endereco existe
+				//testa se o endereco esta preenchido
 				if(!empty($dados[29]) && !empty($dados[30]) && !empty($dados[32]) && !empty($dados[34])){
 					$rua = utf8_encode($dados[29]);
 					$numero = $dados[30];
@@ -66,8 +66,7 @@ class AlunoController{
 					$estado  = utf8_encode($cidade_uf[1]);
 
 				}
-				//se nao existir preencher com o endereco do ifes
-				//Alterar depois!
+				//se nao, preencher com o endereco do ifes
 				else{
 					$rua = "ES-010";
 					$numero = "Km-6,5";
@@ -75,6 +74,7 @@ class AlunoController{
 					$cidade = "Serra";
 					$estado  = "ES";					
 				}
+
 				$endereco = new Endereco($rua, $numero, $bairro, $cidade, $estado);	
 
 				$date = DateTime::createFromFormat('d/m/Y',$dados[5]);
@@ -181,8 +181,12 @@ class AlunoController{
 		$matriculaDAO = new MatriculaDAO();
 		$matriculaBD = $matriculaDAO->findById($alunoBD['id_aluno']);
 
-		if(isset($matriculaBD)){
-			if($alunoCSV['matricula']['numeroMatricula'] == $matriculaBD['numero_matricula']){
+		if(isset($matriculaBD['numero_matricula'])){
+
+			var_dump($alunoCSV['matricula']['numeroMatricula']);
+			var_dump($matriculaBD['numero_matricula']);
+
+			if(trim($alunoCSV['matricula']['numeroMatricula']) == trim($matriculaBD['numero_matricula'])){
 				$matriculaDAO->update($alunoCSV['matricula'], $alunoBD['id_aluno']);
 			}
 			else{
