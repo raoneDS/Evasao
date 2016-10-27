@@ -33,7 +33,7 @@ class AlunoDAO extends DB implements IDAO {
 	public function listAll(){
 		$sql = "SELECT 
 
-				alunos.id_aluno, cpf, nome, sexo, data_nascimento, renda_familiar, escola_origem, nome_curso,
+				alunos.id_aluno, cpf, nome, sexo, data_nascimento, renda_familiar, escola_origem, matriculas.id_curso, nome_curso,
 				numero_matricula, situacao_matricula, semestre_inicial, periodo_atual,
 				rua,  numero, bairro, complemento, cidade, uf, ST_X(ponto_mapa) as lat, ST_Y(ponto_mapa) as lgt
 
@@ -53,9 +53,11 @@ class AlunoDAO extends DB implements IDAO {
 		$alunos = array();
 		while ($fetch = $stmt->fetch(PDO::FETCH_ASSOC)){		
 			
-			$curso = new Curso($fetch['nome_curso']);
+			$curso = new Curso();
+			$curso->setNome($fetch['nome_curso']);
+			$curso->setId($fetch['id_curso']);
 
-			$matricula = new Matricula($fetch['semestre_inicial'], $fetch['periodo_atual'], $fetch['numero_matricula'], $fetch['situacao_matricula'],$curso);
+			$matricula = new Matricula($fetch['semestre_inicial'], $fetch['periodo_atual'], $fetch['numero_matricula'], $fetch['situacao_matricula'], $curso);
 
 			$ponto = new PosicaoGeografica($fetch['lat'],$fetch['lgt']);
 

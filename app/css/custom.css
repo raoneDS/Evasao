@@ -4358,12 +4358,18 @@ h4.categorize-title {
 select.categorizeSelect {  
   width: 150px; }
 
-.situacao-select {  
+.filter-select {  
   float: left;
-  width: 170px; }
+  margin-right: 10px; }
+
+select.cursoSelect {  
+  width: 190px; }
+
+select.sexoSelect {  
+  width: 110px; }
 
 select.situacaoSelect {  
-  width: 200px; }
+  width: 160px; }
 
 .main-content {
     padding: 10px 20px 0; }
