@@ -160,19 +160,22 @@ class AlunoController{
 		$enderecoDao = new EnderecoDAO();
 		$enderecoBD = $enderecoDao->findByIdAluno($alunoBD['id_aluno']);
 		
-		//var_dump($enderecoBD);
-		//var_dump($alunoCSV);
-
 		if($enderecoBD['rua'] != $alunoCSV['endereco']['rua'] || 
 								$enderecoBD['numero'] != $alunoCSV['endereco']['numero'] ||
 								$enderecoBD['bairro'] != $alunoCSV['endereco']['bairro'] ||
 								$enderecoBD['cidade'] != $alunoCSV['endereco']['cidade'] ||
 								$enderecoBD['uf'] != $alunoCSV['endereco']['uf'] ) {
+
 			echo "\n".'Atualizando endereço do aluno '.$alunoCSV['nome'];
 			$alunoCSV = $this->localizarEnderecoAluno($alunoCSV);
 
-			$enderecoDao = new EnderecoDAO();
-			$enderecoDao->update($alunoCSV['endereco'], $alunoBD['id_aluno']);
+			if(isset($enderecoBD["id_aluno"]) &&  !empty($enderecoBD["id_aluno"])){
+				$enderecoDao->update($alunoCSV['endereco'], $alunoBD['id_aluno']);
+			}
+			else{
+				$enderecoDao->insert($alunoCSV['endereco'], $alunoBD['id_aluno']);
+			}
+
 		}		
 
 		$matriculaDAO = new MatriculaDAO();

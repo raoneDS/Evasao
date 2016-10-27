@@ -63,8 +63,8 @@ class EnderecoDAO extends DB implements IDAO {
 
 			//ST_GeomFromText('POINT($lat $lgt)')
 
-			$sql = "UPDATE enderecos 
-					SET rua = :rua, numero = :numero, bairro = :bairro, cidade = :cidade, uf = :uf, ponto_mapa = ST_MakePoint($lat,$lgt)) 
+			$sql = "UPDATE enderecos
+					SET rua = :rua, numero = :numero, bairro = :bairro, cidade = :cidade, uf = :uf, ponto_mapa = ST_MakePoint($lat,$lgt)
 					WHERE id_aluno = :id_aluno";
 
 			var_dump($sql);
