@@ -82,6 +82,8 @@ include_once 'header.php';
 
 	<script>
 	$(window).load(function(){
+
+		//transforma os selects em Select2
 		$(".categorizeSelect").select2();
 
 		$(".cursoSelect").select2({
@@ -100,13 +102,20 @@ include_once 'header.php';
 		});
 
 		// VARIAVEIS DE MAPA //
-		var marker;
 		
+		//coordenada central do mapa na inicialização da página		
 		var coordanadaInicial = [-20.1625356,-40.401568];
+
+		//criação do objeto mapa do Leaflet
 		var mymap = new L.map('mapid').setView(coordanadaInicial, 11);
-		var markers = new L.FeatureGroup();;
+
+		//camada para guardar todos os marcadores
+		var markers = new L.FeatureGroup();
+
+		//adiciona a camada no mapa
 		mymap.addLayer(markers);
 
+		//adiciona a camada base do mapa utilizando as imagens do MapBox
 		L.tileLayer('https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw', {
 			maxZoom: 18,
 			attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
@@ -115,6 +124,8 @@ include_once 'header.php';
 			id: 'mapbox.streets'
 		}).addTo(mymap);
 
+
+		//inicializacao dos icones utlizados para exibir por sexo
 		var blueIcon = L.icon({
 		    iconUrl: 'icons/blue_marker.png',
 		    iconSize:     [36, 36] // size of the icon
@@ -125,6 +136,7 @@ include_once 'header.php';
 		    iconSize:     [36, 36] // size of the icon
 		});
 
+		//inicializacao dos icones utlizados para exibir por situação de matrícula
 		var matriculadoIcon = L.icon({
 		    iconUrl: 'icons/matriculado.png',
 		    iconSize:     [26, 46] // size of the icon
@@ -150,12 +162,16 @@ include_once 'header.php';
 		    iconSize:     [26, 46] // size of the icon
 		});
 
-		
+		//pega os alunos cadastrados no banco
 		var listaAlunos = <?php echo $alunos; ?>;
+
+		//seta a visualizacao inicial para todos os alunos sem filtro
 		var listaAlunosFiltrada = listaAlunos;
 
+		//carrega os marcadores quando a página for carregada
 		carregaMarkers();
 
+		//funcao que decide qual o categorizacao deve ser utilizada
 		function carregaMarkers(){			
 			var categorizado = $( "#categorizeSelect" ).val();
 			markers.clearLayers();
@@ -166,6 +182,7 @@ include_once 'header.php';
 				carregaMarkersSituacao();
 		}
 		
+		//essa função carrega os marcadores no caso de opção de mostrar por sexo esteja ativada
 		function carregaMarkersSexo(){
 			if(listaAlunosFiltrada != null){
 				for (var i = 0; i < listaAlunosFiltrada.length; i++) {
@@ -179,6 +196,7 @@ include_once 'header.php';
 			}
 		}
 
+		//essa função carrega os marcadores no caso de opção de mostrar por situacao esteja ativada
 		function carregaMarkersSituacao(){
 			if(listaAlunosFiltrada != null){
 				for (var i = 0; i < listaAlunosFiltrada.length; i++) {
@@ -211,32 +229,42 @@ include_once 'header.php';
 		}
 
 		function filtraResultados(){
+			//reseta a lista
 			listaAlunosFiltrada = listaAlunos;
+
+			//pega os valores selecionados dos selects
 			var filtroCurso = $( "#cursoSelect" ).val();
 			var filtroSituacao = $( "#situacaoSelect" ).val();
 			var filtroSexo = $( "#sexoSelect" ).val();
 
-			var temp = listaAlunosFiltrada;
-			listaAlunosFiltrada = temp.filter(function (aluno) {
-			  	return (aluno.matricula.curso.id == filtroCurso) ||
-			  			(filtroCurso == null);
-			});
+			//filtra por curso
+			if(filtroCurso != null){
+				var temp = listaAlunosFiltrada;
+				listaAlunosFiltrada = temp.filter(function (aluno) {
+				  	return aluno.matricula.curso.id == filtroCurso;
+				});
+			}
 
-			temp = listaAlunosFiltrada;
-			listaAlunosFiltrada = temp.filter(function (aluno) {
-			  	return (aluno.matricula.situacao == filtroSituacao) ||
-			  			(filtroSituacao == null);
-			});
+			//filtra por situacao de matricula
+			if(filtroSituacao != null){
+				temp = listaAlunosFiltrada;
+				listaAlunosFiltrada = temp.filter(function (aluno) {
+				  	return aluno.matricula.situacao == filtroSituacao;
+				});
+			}
 
-			temp = listaAlunosFiltrada;
-			listaAlunosFiltrada = temp.filter(function (aluno) {
-			  	return (aluno.sexo == filtroSexo) ||
-			  			(filtroSexo == null);
-			});
+			//filtra por sexo
+			if(filtroSexo != null){
+				temp = listaAlunosFiltrada;
+				listaAlunosFiltrada = temp.filter(function (aluno) {
+				  	return aluno.sexo == filtroSexo
+				});
+			}
 
 			carregaMarkers();
 		}
 
+		//eventos para ativar o filtro
 		$('#categorizeSelect').change(function() {
 		    carregaMarkers();
 		});
