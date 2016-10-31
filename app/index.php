@@ -32,6 +32,7 @@ include_once 'header.php';
 						<select id="categorizeSelect" class="categorizeSelect">
 							<option selected value="Sexo">Sexo</option>
 							<option value="Situacao">Situação Matricula</option>
+							<option value="Heatmap">Mapa de Calor</option>
 						</select>
 					</div>
 				</div>
@@ -124,42 +125,56 @@ include_once 'header.php';
 			id: 'mapbox.streets'
 		}).addTo(mymap);
 
+		var heat = L.heatLayer([], {
+				radius: 25,
+				gradient: {0.1: 'blue', 0.5: 'lime', 0.8: 'red'},
+				blur: 15,
+				minOpacity: 0.2
+			}).addTo(mymap);
+
 
 		//inicializacao dos icones utlizados para exibir por sexo
 		var blueIcon = L.icon({
 		    iconUrl: 'icons/blue_marker.png',
-		    iconSize:     [36, 36] // size of the icon
+		    iconSize:     [36, 36],// size of the icon
+		    iconAnchor:   [17.5, 34]
 		});
 
 		var pinkIcon = L.icon({
 		    iconUrl: 'icons/pink_marker.png',
-		    iconSize:     [36, 36] // size of the icon
+		    iconSize:     [36, 36],// size of the icon
+		    iconAnchor:   [17.5, 34]
 		});
 
 		//inicializacao dos icones utlizados para exibir por situação de matrícula
 		var matriculadoIcon = L.icon({
 		    iconUrl: 'icons/matriculado.png',
-		    iconSize:     [26, 46] // size of the icon
+		    iconSize:     [26, 46], // size of the icon
+		    iconAnchor:   [13, 44]
 		});
 
 		var trancadoIcon = L.icon({
 		    iconUrl: 'icons/trancado.png',
-		    iconSize:     [26, 46] // size of the icon
+		    iconSize:     [26, 46], // size of the icon
+		    iconAnchor:   [13, 44]
 		});
 
 		var canceladoIcon = L.icon({
 		    iconUrl: 'icons/cancelado.png',
-		    iconSize:     [26, 46] // size of the icon
+		    iconSize:     [26, 46], // size of the icon
+		    iconAnchor:   [13, 44]
 		});
 
 		var concluidoIcon = L.icon({
 		    iconUrl: 'icons/concluido.png',
-		    iconSize:     [26, 46] // size of the icon
+		    iconSize:     [26, 46], // size of the icon
+		    iconAnchor:   [13, 44]
 		});
 
 		var concluinteIcon = L.icon({
 		    iconUrl: 'icons/concluinte.png',
-		    iconSize:     [26, 46] // size of the icon
+		    iconSize:     [26, 46], // size of the icon
+		    iconAnchor:   [13, 44]
 		});
 
 		//pega os alunos cadastrados no banco
@@ -169,17 +184,28 @@ include_once 'header.php';
 		var listaAlunosFiltrada = listaAlunos;
 
 		//carrega os marcadores quando a página for carregada
-		carregaMarkers();
+		carregaDadosMapa();
+
+		
 
 		//funcao que decide qual o categorizacao deve ser utilizada
-		function carregaMarkers(){			
+		function carregaDadosMapa(){				
 			var categorizado = $( "#categorizeSelect" ).val();
-			markers.clearLayers();
+
+			limpaDadosMapa();			
 
 			if(categorizado == "Sexo")
 				carregaMarkersSexo();
-			else
+			else if(categorizado == "Situacao")
 				carregaMarkersSituacao();
+			else
+				carregaHeatmap();
+		}
+
+		function limpaDadosMapa(){
+			markers.clearLayers();
+			heat._latlngs = [];
+			heat.redraw();
 		}
 		
 		//essa função carrega os marcadores no caso de opção de mostrar por sexo esteja ativada
@@ -188,10 +214,12 @@ include_once 'header.php';
 				for (var i = 0; i < listaAlunosFiltrada.length; i++) {
 					var aluno = listaAlunosFiltrada[i];
 
+					var popup = L.popup({offset: [0, -12]}).setContent("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+
 					if(aluno.sexo == 'F')
-						L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: pinkIcon}).addTo(markers).bindPopup("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+						L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: pinkIcon}).addTo(markers).bindPopup(popup);
 					else
-						L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: blueIcon}).addTo(markers).bindPopup("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+						L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: blueIcon}).addTo(markers).bindPopup(popup);
 				}
 			}
 		}
@@ -202,28 +230,44 @@ include_once 'header.php';
 				for (var i = 0; i < listaAlunosFiltrada.length; i++) {
 					var aluno = listaAlunosFiltrada[i];
 
+					var popup = L.popup({offset: [0, -25]}).setContent("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+
+
 					switch (aluno.matricula.situacao) {
 					    case 0:
-					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: matriculadoIcon}).addTo(markers).bindPopup("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: matriculadoIcon}).addTo(markers).bindPopup(popup);
 					        break;
 					    case 1:
-					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: canceladoIcon}).addTo(markers).bindPopup("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: canceladoIcon}).addTo(markers).bindPopup(popup);
 					        break;
 					    case 2:
-					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: trancadoIcon}).addTo(markers).bindPopup("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: trancadoIcon}).addTo(markers).bindPopup(popup);
 					        break;
 					    case 3:
-					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: concluinteIcon}).addTo(markers).bindPopup("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: concluinteIcon}).addTo(markers).bindPopup(popup);
 					        break;
 					    case 4:
-					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: concluinteIcon}).addTo(markers).bindPopup("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: concluinteIcon}).addTo(markers).bindPopup(popup);
 					        break;
 					    case 5:
-					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: concluidoIcon}).addTo(markers).bindPopup("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: concluidoIcon}).addTo(markers).bindPopup(popup);
 					        break;
 					    case 6:
-					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: matriculadoIcon}).addTo(markers).bindPopup("<b>Nome: </b>"+aluno.nome+"<br><b>Matrícula: </b>"+aluno.matricula.numeroMatricula);
+					        L.marker([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt], {icon: matriculadoIcon}).addTo(markers).bindPopup(popup);
 					}
+				}
+			}
+		}
+
+		//essa função carrega os marcadores no caso de opção de mostrar por sexo esteja ativada
+		function carregaHeatmap(){
+			if(listaAlunosFiltrada != null){
+
+
+				for (var i = 0; i < listaAlunosFiltrada.length; i++) {
+					var aluno = listaAlunosFiltrada[i];
+
+					heat.addLatLng([aluno.endereco.ponto.lat, aluno.endereco.ponto.lgt, 10]);
 				}
 			}
 		}
@@ -261,12 +305,12 @@ include_once 'header.php';
 				});
 			}
 
-			carregaMarkers();
+			carregaDadosMapa();
 		}
 
 		//eventos para ativar o filtro
 		$('#categorizeSelect').change(function() {
-		    carregaMarkers();
+		    carregaDadosMapa();
 		});
 
 		$('#cursoSelect').change(function() {
