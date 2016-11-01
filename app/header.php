@@ -22,6 +22,9 @@
     <link href="css/custom.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
 
+    <!-- Google Geocoder -->
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwUpN5IglA1uzE_E_VbwvtZtHSr5oZKP4"></script>
+
     <!-- Select2 -->
     <link href="plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
 

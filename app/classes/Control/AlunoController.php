@@ -9,7 +9,6 @@ include_once 'Classes/Model/EnumEscolaOrigem.php';
 include_once 'Classes/Model/EnumSituacaoMatricula.php';
 
 include_once 'Classes/DAO/AlunoDAO.php';
-include_once 'Classes/DAO/EnderecoDAO.php';
 include_once 'Classes/DAO/HistoricoDAO.php';
 
 

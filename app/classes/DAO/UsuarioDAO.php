@@ -1,7 +1,6 @@
 <?php
 include_once 'DB.php';
 include_once 'IDAO.php';
-include_once 'Classes/DAO/PessoaDAO.php';
 
 class UsuarioDAO extends DB implements IDAO {
 
@@ -17,9 +16,7 @@ class UsuarioDAO extends DB implements IDAO {
 
 		$sql = "SELECT *
 
-			from usuarios
-
-			inner join pessoas on pessoas.id_pessoa = usuarios.id_pessoa";
+			from usuarios";
 
 		$stmt = DB::prepare($sql);
 		$stmt->execute();
@@ -43,10 +40,10 @@ class UsuarioDAO extends DB implements IDAO {
 		    $con = $this->getInstance();
 		    $con->beginTransaction();
 
-		    $pessoaDAO = new PessoaDAO();
+		    $usuarioDAO = new usuarioDAO();
 
-		    $id_pessoa = $pessoaDAO->insert($usuario);
-		    $this->insert($usuario, $id_pessoa);
+		    $id_usuario = $usuarioDAO->insert($usuario);
+		    $this->insert($usuario, $id_usuario);
 
     		$con->commit();
 		}catch (Exception $e) {
@@ -56,15 +53,31 @@ class UsuarioDAO extends DB implements IDAO {
 	}
 
 
-	private function insert($usuario, $id_pessoa) {
-		$sql = "INSERT INTO usuarios (id_pessoa, login, senha) 
-					VALUES ($id_pessoa, :login, :senha)";
+	private function insert($usuario) {
+		$sql = "INSERT INTO usuarios (data_nascimento, sexo, nome, login, senha) 
+					VALUES (:data_nascimento, :sexo, :nome, :login, :senha)";
 
-	    $stmt = DB::prepare($sql);
+		$stmt = $this->prepare($sql);
 
-	    $login = $usuario->getLogin();
+		// if(is_object($usuario)){
+		// 	$data_nascimento = $usuario->getDataNascimento();
+		// 	$sexo = $usuario->getSexo();
+		// 	$nome = $usuario->getNome();
+		// }else{
+		// 	$data_nascimento = $usuario['data_nascimento'];
+		// 	$sexo = $usuario['sexo'];
+		// 	$nome = $usuario['nome'];
+		// }
+
+		$data_nascimento = $usuario->getDataNascimento();
+		$sexo = $usuario->getSexo();
+		$nome = $usuario->getNome();
+    	$login = $usuario->getLogin();
 	    $senha = $usuario->getSenha();
 
+		$stmt->bindParam(":data_nascimento",$data_nascimento);
+		$stmt->bindParam(":sexo",$sexo);
+		$stmt->bindParam(":nome",$nome);
 	    $stmt->bindParam(":login", $login);
 	    $stmt->bindParam(":senha", $senha);
 	    $stmt->execute();
@@ -84,7 +97,7 @@ class UsuarioDAO extends DB implements IDAO {
 	}
 
 	public function delete($id) {
-		$sql = "DELETE FROM usuarios WHERE id_pessoa = :id";
+		$sql = "DELETE FROM usuarios WHERE id_usuario = :id";
 		$stmt = DB::prepare($sql);
 		$stmt->bindParam(":id",$id, PDO::PARAM_INT);
 		return $stmt->execute();
