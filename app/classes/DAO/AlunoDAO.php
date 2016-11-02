@@ -62,7 +62,7 @@ class AlunoDAO extends DB implements IDAO {
 			$endereco = new Endereco($fetch['rua'],$fetch['numero'],$fetch['bairro'],$fetch['cidade'],$fetch['complemento'],$fetch['uf']);
 			$endereco->setPosicaoGeografica($ponto);
 
-			$aluno = new Aluno($fetch['nome'],$fetch['data_nascimento'],$fetch['sexo'], $matricula, $endereco, $fetch['escola_origem'], $fetch['renda_familiar'], $fetch['email']);
+			$aluno = new Aluno($fetch['nome'],$fetch['data_nascimento'],$fetch['sexo'], $matricula, $endereco, $fetch['escola_origem'], $fetch['renda_familiar'], $fetch['cpf']);
 
 			$alunos[] = $aluno;
 		}

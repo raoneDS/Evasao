@@ -67,9 +67,15 @@
 		<!-- Heatmap plugin for Leaftlet -->
 	    <script src="plugins/Leaflet.heat/leaflet-heat.js"></script>
 
-
 		<script src="http://leaflet.github.io/Leaflet.markercluster/example/realworld.388.js"></script>
 
-	    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwUpN5IglA1uzE_E_VbwvtZtHSr5oZKP4"></script>
+		<script src="plugins/pivottable/d3.min.js"></script>
+	    <script src="plugins/pivottable/c3.min.js"></script>
+
+	    <script src="plugins/pivottable/pivot.js"></script>
+	    <script src="plugins/pivottable/pivot.br.js"></script>
+	    <script src="plugins/pivottable/c3_renderers.js"></script>
+
+
     </body>
 </html>

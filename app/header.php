@@ -22,9 +22,6 @@
     <link href="css/custom.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.1/dist/leaflet.css" />
 
-    <!-- Google Geocoder -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDwUpN5IglA1uzE_E_VbwvtZtHSr5oZKP4"></script>
-
     <!-- Select2 -->
     <link href="plugins/select2/dist/css/select2.min.css" rel="stylesheet" />
 
@@ -52,13 +49,16 @@
     <link href="plugins/datatables.net-scroller-bs/css/scroller.bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css" rel="stylesheet">
 
+    <!-- Datatables -->
+    <link href="plugins/pivottable/c3.min.css" rel="stylesheet">
+    <link href="plugins/pivottable/pivot.css" rel="stylesheet">
+
     <!-- DatePicker -->
     <!--<link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">-->
 
-    <!-- JQuery -->
     <script src="plugins/jquery/dist/jquery.min.js"></script>
     <script src="http://code.jquery.com/ui/1.10.3/jquery-ui.js"></script>
-
+    
   </head>
 
   <body class="nav-md">
@@ -93,6 +93,7 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i>Home</a></li>
+                  <li><a href="dados-dinamicos.php"><i class="fa fa-home"></i>Dados Dinâmicos</a></li>
                   <li><a href="importar-dados.php"><i class="fa fa-upload"></i>Importar Dados</a></li>
                   <li><a href="cursos.php"><i class="fa fa-pencil-square"></i>Cursos</a></li>
                   <li><a href="usuarios.php"><i class="fa fa-user"></i>Usuarios</a></li>
