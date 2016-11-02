@@ -74,22 +74,24 @@ class AlunoDAO extends DB implements IDAO {
 		$id_aluno = null;
 		try{
 
-
-		    $sqlAluno = "INSERT INTO alunos (data_nascimento, sexo, nome, renda_familiar, escola_origem, email) 
-		    				VALUES 	(:data_nascimento, :sexo, :nome, :renda_familiar, :escola_origem, :email)";
+		    $sqlAluno = "INSERT INTO alunos (data_nascimento, sexo, nome, renda_familiar, escola_origem, cpf) 
+		    				VALUES 	(:data_nascimento, :sexo, :nome, :renda_familiar, :escola_origem, :cpf)";
 
 			$stmt = $this->prepare($sqlAluno);
 
-			$stmt->bindParam(":data_nascimento",$aluno['data_nascimento']);
-			$stmt->bindParam(":sexo",$aluno['sexo']);
-			$stmt->bindParam(":nome",$aluno['nome']);
-		   	$stmt->bindParam(":renda_familiar",$aluno['renda_familiar']);
-		    $stmt->bindParam(":escola_origem",$aluno['escola_origem']);
-		    $stmt->bindParam(":id_pessoa",$id_pessoa);
-		    $stmt->bindParam(":cpf",$aluno['cpf']);
+			$stmt->bindParam(":data_nascimento", $aluno['data_nascimento']);
+			$stmt->bindParam(":sexo", $aluno['sexo']);
+			$stmt->bindParam(":nome", $aluno['nome']);
+		   	$stmt->bindParam(":renda_familiar", $aluno['renda_familiar']);
+		    $stmt->bindParam(":escola_origem", $aluno['escola_origem']);
+		    $stmt->bindParam(":cpf", $aluno['cpf']);
+
 		    $stmt->execute();
+
 		    $id_aluno = $this->getLastId();
 		    $id_aluno = $id_aluno['id_aluno'];
+
+		    
 		}catch (Exception $e) {
 		    echo "Error!: " . $e->getMessage() . "</br>";
 		}

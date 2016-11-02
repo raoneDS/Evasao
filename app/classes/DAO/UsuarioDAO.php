@@ -53,21 +53,11 @@ class UsuarioDAO extends DB implements IDAO {
 	}
 
 
-	private function insert($usuario) {
+	public function insert($usuario) {
 		$sql = "INSERT INTO usuarios (data_nascimento, sexo, nome, login, senha) 
 					VALUES (:data_nascimento, :sexo, :nome, :login, :senha)";
 
 		$stmt = $this->prepare($sql);
-
-		// if(is_object($usuario)){
-		// 	$data_nascimento = $usuario->getDataNascimento();
-		// 	$sexo = $usuario->getSexo();
-		// 	$nome = $usuario->getNome();
-		// }else{
-		// 	$data_nascimento = $usuario['data_nascimento'];
-		// 	$sexo = $usuario['sexo'];
-		// 	$nome = $usuario['nome'];
-		// }
 
 		$data_nascimento = $usuario->getDataNascimento();
 		$sexo = $usuario->getSexo();
@@ -75,9 +65,9 @@ class UsuarioDAO extends DB implements IDAO {
     	$login = $usuario->getLogin();
 	    $senha = $usuario->getSenha();
 
-		$stmt->bindParam(":data_nascimento",$data_nascimento);
-		$stmt->bindParam(":sexo",$sexo);
-		$stmt->bindParam(":nome",$nome);
+		$stmt->bindParam(":data_nascimento", $data_nascimento);
+		$stmt->bindParam(":sexo", $sexo);
+		$stmt->bindParam(":nome", $nome);
 	    $stmt->bindParam(":login", $login);
 	    $stmt->bindParam(":senha", $senha);
 	    $stmt->execute();

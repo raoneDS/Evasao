@@ -126,6 +126,7 @@ class AlunoController{
 		else{
 			//inseri aluno novo
 			echo 'Cadastrando o aluno '.$alunoCSV['nome'];
+			var_dump($alunoCSV);
 			$this->inseriAluno($alunoCSV);
 			
 		}
@@ -133,11 +134,8 @@ class AlunoController{
 	}
 
 	public function inseriAluno($aluno){
-		$pessoaDao = new PessoaDAO();
-		$idPessoa = $pessoaDao->insert($aluno);
-
 		$alunoDAO = new AlunoDAO();
-		$idAluno = $alunoDAO->insert($aluno, $idPessoa);
+		$idAluno = $alunoDAO->insert($aluno);
 
 		$aluno = $this->localizarEnderecoAluno($aluno);
 		echo "\n".'Pesquisando o endereço do aluno '.$aluno['nome'];
