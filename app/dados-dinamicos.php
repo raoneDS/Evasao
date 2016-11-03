@@ -48,7 +48,7 @@ include_once 'header.php';
         //pega os alunos cadastrados no banco
         var listaAlunos = <?php echo $alunos; ?>;       
 
-        $(window).load(function(){           
+        $(window).load(function(){        
 
             $(function(){
               var derivers = $.pivotUtilities.derivers;
@@ -107,6 +107,12 @@ include_once 'header.php';
               );
 
            });//function
+
+
+	        function calcularIdade(dateString) {
+			  var birthday = +new Date(dateString);
+			  return~~ ((Date.now() - birthday) / (31557600000));
+			}
 
         });//window load
         </script>

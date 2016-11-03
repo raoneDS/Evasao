@@ -93,7 +93,7 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a href="index.php"><i class="fa fa-home"></i>Home</a></li>
-                  <li><a href="dados-dinamicos.php"><i class="fa fa-home"></i>Dados Dinâmicos</a></li>
+                  <li><a href="dados-dinamicos.php"><i class="fa fa-table"></i>Dados Dinâmicos</a></li>
                   <li><a href="importar-dados.php"><i class="fa fa-upload"></i>Importar Dados</a></li>
                   <li><a href="cursos.php"><i class="fa fa-pencil-square"></i>Cursos</a></li>
                   <li><a href="usuarios.php"><i class="fa fa-user"></i>Usuarios</a></li>
