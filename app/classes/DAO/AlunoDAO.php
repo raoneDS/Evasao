@@ -32,14 +32,15 @@ class AlunoDAO extends DB implements IDAO {
 	public function listAll(){
 		$sql = "SELECT 
 
-				alunos.id_aluno, cpf, nome, sexo, data_nascimento, renda_familiar, escola_origem, matriculas.id_curso, nome_curso,
+				alunos.id_aluno, cpf, alunos.nome, sexo, data_nascimento, renda_familiar, escola_origem, matriculas.id_curso, nome_curso,
 				numero_matricula, situacao_matricula, semestre_inicial, periodo_atual,
-				rua,  numero, bairro, complemento, cidade, uf, ST_X(ponto_mapa) as lat, ST_Y(ponto_mapa) as lgt
+				rua,  numero, bairro, complemento, municipios.nome as nome_cidade, municipios.gid, enderecos.uf, ST_X(ponto_mapa) as lat, ST_Y(ponto_mapa) as lgt
 
 				from alunos
 				inner join enderecos on alunos.id_aluno = enderecos.id_aluno
 				inner join matriculas on alunos.id_aluno = matriculas.id_aluno 
-				inner join cursos on matriculas.id_curso = cursos.id_curso";
+				inner join cursos on matriculas.id_curso = cursos.id_curso
+				inner join municipios on municipios.gid = enderecos.id_cidade";
 				
 		$stmt = DB::prepare($sql);
 		$stmt->execute();
@@ -59,7 +60,7 @@ class AlunoDAO extends DB implements IDAO {
 										$fetch['numero_matricula'], $fetch['situacao_matricula'],$curso);
 
 			$ponto = new PosicaoGeografica($fetch['lat'],$fetch['lgt']);
-			$endereco = new Endereco($fetch['rua'], $fetch['numero'], $fetch['bairro'], $fetch['cidade'], $fetch['uf']);
+			$endereco = new Endereco($fetch['rua'], $fetch['numero'], $fetch['bairro'], $fetch['nome_cidade'], $fetch['uf']);
 			$endereco->setPosicaoGeografica($ponto);
 
 			$aluno = new Aluno($fetch['nome'],$fetch['data_nascimento'],$fetch['sexo'], $matricula, $endereco, $fetch['escola_origem'], $fetch['renda_familiar'], $fetch['cpf']);

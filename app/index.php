@@ -13,6 +13,8 @@ if(!isset($_SESSION["id_usuario"])){
 $alunoController = new AlunoController();
 $cursoController = new CursoController();
 
+$cidades = $alunoController->getCidades();
+
 $alunos = $alunoController->getAlunosDB();
 $cursos = $cursoController->listaCursos();
 
@@ -50,7 +52,7 @@ include_once 'header.php';
 							?>						
 
 						</select>
-					</div>
+					</div>					
 
 					<div class="filter-select">
 						<select id="situacaoSelect" class="situacaoSelect">
@@ -72,6 +74,17 @@ include_once 'header.php';
 						</select>
 					</div>
 
+					<div class="filter-select">
+						<select id="cidadeSelect" class="cidadeSelect">
+							<option disabled selected></option>
+							<?php 
+							foreach ($cidades as $cidade) {
+								echo '<option value='.$cidade['gid'].'>'.$cidade['nome'].'</option>';
+							}
+							?>						
+						</select>
+					</div>
+
 				</div>
 
             </div>
@@ -89,6 +102,11 @@ include_once 'header.php';
 
 		$(".cursoSelect").select2({
 			placeholder: "Curso",
+		  	allowClear: true
+		});
+
+		$(".cidadeSelect").select2({
+			placeholder: "Cidade",
 		  	allowClear: true
 		});
 
@@ -272,6 +290,14 @@ include_once 'header.php';
 			}
 		}
 
+		function makePoligon(){
+			var polygon = L.polygon([
+			    [51.509, -0.08],
+			    [51.503, -0.06],
+			    [51.51, -0.047]
+			]).addTo(mymap);
+		}
+
 		function filtraResultados(){
 			//reseta a lista
 			listaAlunosFiltrada = listaAlunos;
@@ -280,6 +306,7 @@ include_once 'header.php';
 			var filtroCurso = $( "#cursoSelect" ).val();
 			var filtroSituacao = $( "#situacaoSelect" ).val();
 			var filtroSexo = $( "#sexoSelect" ).val();
+			var filtroCidade = $( "#cidadeSelect option:selected" ).text();
 
 			//filtra por curso
 			if(filtroCurso != null){
@@ -300,8 +327,17 @@ include_once 'header.php';
 			//filtra por sexo
 			if(filtroSexo != null){
 				temp = listaAlunosFiltrada;
+				makePoligon();
 				listaAlunosFiltrada = temp.filter(function (aluno) {
-				  	return aluno.sexo == filtroSexo
+				  	return aluno.sexo == filtroSexo;
+				});
+			}
+
+			//filtra por cidade
+			if(filtroCidade != ""){
+				temp = listaAlunosFiltrada;
+				listaAlunosFiltrada = temp.filter(function (aluno) {
+				  	return aluno.endereco.cidade == filtroCidade;
 				});
 			}
 
@@ -322,6 +358,10 @@ include_once 'header.php';
 		});
 
 		$('#sexoSelect').change(function() {
+		    filtraResultados();
+		});
+
+		$('#cidadeSelect').change(function() {
 		    filtraResultados();
 		});
 		

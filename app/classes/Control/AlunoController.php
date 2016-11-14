@@ -10,6 +10,7 @@ include_once 'Classes/Model/EnumSituacaoMatricula.php';
 
 include_once 'Classes/DAO/AlunoDAO.php';
 include_once 'Classes/DAO/HistoricoDAO.php';
+include_once 'Classes/DAO/EnderecoDAO.php';
 
 
 if(isset($_REQUEST['acao'])){
@@ -261,6 +262,14 @@ class AlunoController{
 	        return false;
 	    }
 	}
+
+	public function getCidades(){
+		$enderecoDAO = new EnderecoDAO();
+		return $enderecoDAO->listCities();
+	}
+
+
+
 }
 
 
