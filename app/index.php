@@ -66,7 +66,7 @@ include_once 'header.php';
 						</select>
 					</div>
 
-					<div class="filter-select" style="width: 150px;">
+					<div class="filter-select">
 						<select id="sexoSelect" class="sexoSelect">
 							<option disabled selected></option>
 							<option value="M" >Masculino</option>
@@ -87,10 +87,19 @@ include_once 'header.php';
 
 				</div>
 
+				<div class="switch-page-controls">
+					<a id="ativarMapa" href="javascript:void(0)"><i class="page-control fa fa-map-marker"></i></a>
+					<a id="ativarLista" href="javascript:void(0)"><i class="page-control fa fa-list"></i></a>
+					<a id="ativarGraficos" href="javascript:void(0)"><i class="page-control fa fa-bar-chart"></i></a>
+				</div>
+
+
             </div>
           </div>
 
           <div id="mapid"></div>
+          <div id="panel-lista">Lista</div>
+          <div id="panel-graficos">Graficos</div>
         </div>
         <!-- /page content -->
 
@@ -98,7 +107,9 @@ include_once 'header.php';
 	$(window).load(function(){
 
 		//transforma os selects em Select2
-		$(".categorizeSelect").select2();
+		$(".categorizeSelect").select2({
+			width: '120px'
+		});
 
 		$(".cursoSelect").select2({
 			placeholder: "Curso",
@@ -117,7 +128,8 @@ include_once 'header.php';
 
 		$(".sexoSelect").select2({
 			placeholder: "Sexo",
-		  	allowClear: true
+		  	allowClear: true,
+		  	width: '80px'
 		});
 
 		// VARIAVEIS DE MAPA //
@@ -363,8 +375,42 @@ include_once 'header.php';
 
 		$('#cidadeSelect').change(function() {
 		    filtraResultados();
-		});
-		
+		});		
+
+
+		$('#ativarMapa').on("click",function(){
+			$('#panel-lista').hide();
+			$('.page-control.fa.fa-list').css('color', '#bbb');
+
+			$('#panel-graficos').hide();
+			$('.page-control.fa.fa-bar-chart').css('color', '#bbb');
+
+			$('#mapid').show()
+			$('.page-control.fa.fa-map-marker').css('color', '#5A738E');
+		})
+
+		$('#ativarLista').on("click",function(){
+			$('#panel-graficos').hide();
+			$('.page-control.fa.fa-bar-chart').css('color', '#bbb');
+
+			$('#mapid').hide()
+			$('.page-control.fa.fa-map-marker').css('color', '#bbb');
+
+			$('#panel-lista').show();
+			$('.page-control.fa.fa-list').css('color', '#5A738E');
+		})
+
+		$('#ativarGraficos').on("click",function(){
+			$('#mapid').hide()
+			$('.page-control.fa.fa-map-marker').css('color', '#bbb');
+
+			$('#panel-lista').hide();
+			$('.page-control.fa.fa-list').css('color', '#bbb');
+
+			$('#panel-graficos').show();
+			$('.page-control.fa.fa-bar-chart').css('color', '#5A738E');
+		})
+
 	});
 	</script>
 

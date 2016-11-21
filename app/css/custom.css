@@ -4332,7 +4332,7 @@ html{
 
 .filters {  
   float: left;
-  width: calc(100% - 280px); 
+  /*width: calc(100% - 280px); */
   padding-top: 10px;
   padding-left: 10px}
 
@@ -4342,7 +4342,7 @@ h4.filters-title {
 
 .categorize {  
   float: left;
-  width: 280px; 
+  width: 250px; 
   padding-top: 10px;
   padding-left: 10px; }
 
@@ -4383,4 +4383,21 @@ vertical-align: middle !important; }
 .action-button{
   margin-right: 10px;
 }
+
+.switch-page-controls{
+  float: right;
+  margin: 20px;
+}
+
+.page-control{
+  margin-right: 10px;
+  color: #bbb;
+  font-size: 18px;
+}
+
+.page-control.fa.fa-map-marker{
+  color: #5A738E;
+}
+
+
 
